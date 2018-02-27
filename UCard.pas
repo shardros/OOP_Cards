@@ -11,7 +11,7 @@ type
     Rank, Suit: integer;
   public
     constructor create(r: integer; s: integer);
-    constructor createfromstr(r: string; s: integer);
+    constructor createfromstr(r: string; s: string);
     function GetRank: integer;
     function GetExplicitRank: string;
     function GetExplicitSuit: string;
@@ -19,14 +19,7 @@ type
     function GetScore: integer;
   end;
 
-type
-  Tpack = class
-  private
-    pack: array of Tcard;
-  public
-    constructor create;
 
-  end;
 
 implementation
 
@@ -39,27 +32,27 @@ end;
 
 constructor Tcard.createfromstr(r: string; s: string);
 begin
-  case s of
-    'Spades':
+  case s[1] of
+    'S':
       Suit := 0;
-    'Hearts':
+    'H':
       Suit := 1;
-    'Clubs':
+    'C':
       Suit := 2;
-    'Diamonds':
+    'D':
       Suit := 3;
   else
     Suit := strtoint(s);
   end;
 
-  case r of
-    'Ace':
+  case r[1] of
+    'A':
       Rank := 0;
-    'Jack':
+    'J':
       Rank := 10;
-    'Queen':
+    'Q':
       Rank := 11;
-    'King':
+    'K':
       Rank := 12;
   else
     Rank := strtoint(r);
@@ -78,7 +71,7 @@ begin
     12:
       result := 'King';
   else
-    result := inttostr(self.Rank);
+    result := inttostr(self.Rank + 1);
   end;
 end;
 

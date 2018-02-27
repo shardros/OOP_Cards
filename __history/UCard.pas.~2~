@@ -1,0 +1,115 @@
+unit UCard;
+
+interface
+
+uses
+  System.SysUtils;
+
+type
+  Tcard = class
+  private
+    Rank, Suit: integer;
+  public
+    constructor create(r: integer; s: integer);
+    constructor createfromstr(r: string; s: integer);
+    function GetRank: integer;
+    function GetExplicitRank: string;
+    function GetExplicitSuit: string;
+    function GetSuit: integer;
+    function GetScore: integer;
+  end;
+
+type
+  Tpack = class
+  private
+    pack: array of Tcard;
+  public
+    constructor create;
+    function draw: Tcard;
+    procedure shuffle;
+    end;
+
+implementation
+
+{ Tcard }
+constructor Tcard.create(r, s: integer);
+begin
+  Suit := s;
+  Rank := r;
+end;
+
+constructor Tcard.createfromstr(r: string; s: string);
+begin
+  case s of
+    'Spades':
+      Suit := 0;
+    'Hearts':
+      Suit := 1;
+    'Clubs':
+      Suit := 2;
+    'Diamonds':
+      Suit := 3;
+  else
+    Suit := strtoint(s);
+  end;
+
+  case r of
+    'Ace':
+      Rank := 0;
+    'Jack':
+      Rank := 10;
+    'Queen':
+      Rank := 11;
+    'King':
+      Rank := 12;
+  else
+    Rank := strtoint(r);
+  end;
+end;
+
+function Tcard.GetExplicitRank: string;
+begin
+  case self.Rank of
+    0:
+      result := 'Ace';
+    10:
+      result := 'Jack';
+    11:
+      result := 'Queen';
+    12:
+      result := 'King';
+  else
+    result := inttostr(self.Rank);
+  end;
+end;
+
+function Tcard.GetExplicitSuit: string;
+begin
+  case self.Suit of
+    0:
+      result := 'Spades';
+    1:
+      result := 'Hearts';
+    2:
+      result := 'Clubs';
+    3:
+      result := 'Diamonds';
+  end;
+end;
+
+function Tcard.GetRank: integer;
+begin
+  result := self.Rank;
+end;
+
+function Tcard.GetScore: integer;
+begin
+  result := (self.GetRank * 4) + self.GetSuit;
+end;
+
+function Tcard.GetSuit: integer;
+begin
+  result := self.Suit;
+end;
+
+end.
