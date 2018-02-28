@@ -27,13 +27,13 @@ var
 begin
   for I := 0 to 51 do
   begin
-    self.pack[I] := Tcard.create(I mod 13, I mod 4);
-    writeln(inttostr(I), '  NEW CARD CREATED: ', self.pack[I].getexplicitrank,
-      ' of ', self.pack[I].GetExplicitSuit);
+    pack[I] := Tcard.create(I mod 13, I mod 4);
+    writeln(inttostr(I), '  NEW CARD CREATED: ', pack[I].getexplicitrank,
+      ' of ', pack[I].GetExplicitSuit);
   end;
 end;
 
-function TPack.draw: Tcard;
+function TPack.pack: Tcard;
 begin
   result := pack[pack_top];
   inc(pack_top);
@@ -49,9 +49,9 @@ begin
   for I := 0 to 51 do
   begin
     random_pos := random(51);
-    temp := self.pack[random_pos];
-    self.pack[random_pos] := self.pack[I];
-    self.pack[I] := temp;
+    temp := pack[random_pos];
+    pack[random_pos] := pack[I];
+    pack[I] := temp;
   end;
 end;
 
