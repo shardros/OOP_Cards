@@ -23,7 +23,7 @@ implementation
 
 constructor TPack.create;
 var
-  I: integer;
+  I, card_no: integer;
 begin
   for I := 0 to 51 do
   begin

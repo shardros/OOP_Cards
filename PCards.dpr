@@ -7,11 +7,11 @@ program PCards;
 uses
   System.SysUtils,
   UCard in 'UCard.pas',
-  UPack in 'UPack.pas';
+  UPack in 'UPack.pas',
+  UHand in 'UHand.pas';
 
 var
   pack: tpack;
-  card: tcard;
 
 begin
   pack := tpack.create;
