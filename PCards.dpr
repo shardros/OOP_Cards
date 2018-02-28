@@ -10,9 +10,15 @@ uses
   UDeck in 'UDeck.pas';
 
 var
-  Global_pack: tdeck;
-
+  pack: tpack;
+  card: tcard;
+  I : integer;
 begin
-  Global_pack := tDeck.create;
+  pack := tpack.create;
+  pack.shuffle;
+  for I := 0 to 51 do begin
+    card := pack.draw;
+    writeln(card.GetExplicitRank, ' of ', card.GetExplicitSuit);
+  end;
   readln;
 end.
