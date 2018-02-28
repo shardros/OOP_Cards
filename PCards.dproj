@@ -74,7 +74,7 @@
             <MainSource>MainSource</MainSource>
         </DelphiCompile>
         <DCCReference Include="UCard.pas"/>
-        <DCCReference Include="UDeck.pas"/>
+        <DCCReference Include="UPack.pas"/>
         <BuildConfiguration Include="Release">
             <Key>Cfg_2</Key>
             <CfgParent>Base</CfgParent>
