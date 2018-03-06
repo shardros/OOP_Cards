@@ -1,20 +1,33 @@
 program PCards;
 
 {$APPTYPE CONSOLE}
-
 {$R *.res}
 
 uses
   System.SysUtils,
   UCard in 'UCard.pas',
   UPack in 'UPack.pas',
-  UHand in 'UHand.pas';
+  UHand in 'UHand.pas',
+  UExceptions in 'UExceptions.pas';
 
 var
-  pack: tpack;
+  deck: tpack;
+  player1, player2: thand;
+  i: integer;
+
+procedure init;
+begin
+  deck := tpack.create(False);
+  player1 := thand.create;
+  player2 := thand.create;
+  for i := 0 to 25 do
+    player1.AddToHand(deck.draw);
+  for i := 0 to 25 do
+    player2.AddToHand(deck.draw);
+end;
 
 begin
-  pack := tpack.create;
-  pack.shuffle;
+  init;
+  deck.destroy;
   readln;
 end.
