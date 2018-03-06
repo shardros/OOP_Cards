@@ -19,8 +19,6 @@ type
     function GetScore: integer;
   end;
 
-
-
 implementation
 
 { Tcard }

@@ -7,7 +7,6 @@ uses
 
 type
   THandContents = array [0 .. 51] of tcard;
-
   Thand = class
   private
     Hand: THandContents;
@@ -16,11 +15,13 @@ type
     constructor Create;
     function getcontents: THandContents;
     function placecard(index: integer): tcard;
-    procedure AddToHand(card: tcard);
+    procedure AddToHand(card: Tcard);
     function GetHandSize: integer;
   end;
 
 implementation
+
+
 
 { Thand }
 
@@ -29,9 +30,9 @@ begin
   size := 0;
 end;
 
-function Thand.getcontents: THandContents;
+function THand.getcontents: THandContents;
 begin
-  result := self.Hand;
+  result := self.hand;
 end;
 
 function Thand.GetHandSize: integer;
@@ -39,7 +40,7 @@ begin
   result := size;
 end;
 
-procedure Thand.AddToHand(card: tcard);
+procedure Thand.AddToHand(card: Tcard);
 begin
   Hand[size] := card;
   inc(size);

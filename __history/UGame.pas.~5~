@@ -1,0 +1,56 @@
+unit UGame;
+
+interface
+uses
+  System.sysutils, UCard, UPack, UHand;
+
+procedure init;
+function play:integer;
+
+
+implementation
+
+var
+  deck: tpack;
+  player1, player2: thand;
+  i: integer;
+
+procedure init;
+begin
+  deck := tpack.create(False);
+  deck.shuffle;
+  player1 := thand.create;
+  player2 := thand.create;
+  for i := 0 to 25 do
+    player1.AddToHand(deck.draw);
+  for i := 0 to 25 do
+    player2.AddToHand(deck.draw);
+end;
+
+
+function play:integer;
+var
+  card1, card2, score1, score2: integer;
+begin
+  for I := 0 to 25 do begin
+    card1 := player1.placecard(i).GetScore;
+    card2 := player2.placecard(i).GetScore;
+    if card1 > card2 then begin
+      inc(score1);
+    end else begin
+      if card2 < card1 then
+        inc(score2);
+    end;
+
+  end;
+  writeln(score1);
+  writeln(score2);
+  if score1>score2 then begin
+    result := 1;
+  end else begin
+    result := 2;
+  end;
+  deck.destroy;
+end;
+
+end.

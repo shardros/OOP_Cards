@@ -1,0 +1,38 @@
+program PCards;
+
+{$APPTYPE CONSOLE}
+{$R *.res}
+
+uses
+  System.SysUtils,
+  UCard in 'UCard.pas',
+  UPack in 'UPack.pas',
+  UHand in 'UHand.pas',
+  UExceptions in 'UExceptions.pas',
+  UGame in 'UGame.pas';
+
+var
+  plar1, plar2, i: integer;
+
+begin
+  init;
+  plar1 := 0;
+  plar2 := 1;
+  for i := 0 to 10001 do
+  begin
+    if play = 1 then
+    begin
+      inc(plar1);
+    end
+    else
+    begin
+      inc(plar2);
+    end;
+
+  end;
+
+  writeln(plar1);
+  writeln(plar2);
+  readln;
+
+end.

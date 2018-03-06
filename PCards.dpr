@@ -8,26 +8,37 @@ uses
   UCard in 'UCard.pas',
   UPack in 'UPack.pas',
   UHand in 'UHand.pas',
-  UExceptions in 'UExceptions.pas';
+  UExceptions in 'UExceptions.pas',
+  UGame in 'UGame.pas';
 
 var
-  deck: tpack;
-  player1, player2: thand;
-  i: integer;
-
-procedure init;
-begin
-  deck := tpack.create(False);
-  player1 := thand.create;
-  player2 := thand.create;
-  for i := 0 to 25 do
-    player1.AddToHand(deck.draw);
-  for i := 0 to 25 do
-    player2.AddToHand(deck.draw);
-end;
+  plar1, plar2, result, i: integer;
 
 begin
   init;
-  deck.destroy;
+  plar1 := 0;
+  plar2 := 1;
+  for i := 0 to 10000 do
+  begin
+    result := UGame.play;
+    if result = 1 then
+    begin
+      inc(plar1);
+    end
+    else
+    begin
+      if result = 2 then
+        inc(plar2);
+    end;
+    UGame.destroy;
+    UGame.init;
+  end;
+
+  writeln(plar1);
+  writeln(plar2);
+  ugame.init;
+  ugame.test;
+  UGame.destroy;
   readln;
+
 end.
