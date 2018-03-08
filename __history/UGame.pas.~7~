@@ -41,7 +41,7 @@ begin
   begin
     card1 := player1.placecard(i);
     card2 := player2.placecard(i);
-    if card1.getscore > card2.getscore then //this breaks on the 26th round
+    if card1.getscore > card2.getscore then
     begin
       inc(score1);
     end
@@ -73,13 +73,13 @@ end;
 procedure test;
 var
   i,x: integer;
-  average: array [0..51] of real;
+  average: array [0..51] of integer;
 begin
   for I := 0 to 10000 do
   begin
     deck.shuffle;
     for x := 0 to 51 do
-      average[x] := (average[x] + deck.draw.GetScore)/2;
+      average[i] := deck.draw.GetScore;
   end;
   for I := 0 to 51 do
     begin
