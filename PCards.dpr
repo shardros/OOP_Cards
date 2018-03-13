@@ -18,7 +18,7 @@ begin
   init;
   plar1 := 0;
   plar2 := 1;
-  for i := 0 to 10 do
+  for i := 0 to 10000 do
   begin
     result := UGame.play;
     if result = 1 then
@@ -36,9 +36,10 @@ begin
 
   writeln(plar1);
   writeln(plar2);
-  ugame.init;
-  ugame.test;
-  UGame.destroy;
+  readln;
+  init;
+  test;
+  destroy;
   readln;
 
 end.

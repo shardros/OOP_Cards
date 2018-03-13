@@ -13,7 +13,7 @@ type
     pack_top: integer;
   public
     Debug: Boolean;
-    constructor create(input: Boolean);
+    constructor create(debug: Boolean);
     function draw: Tcard;
     procedure shuffle;
     destructor destroy;
@@ -23,11 +23,10 @@ implementation
 
 { Tpack }
 
-constructor TPack.create(input: Boolean);
+constructor TPack.create(debug: Boolean);
 var
   I: integer;
 begin
-  Debug := input;
   for I := 0 to 51 do
   begin
     self.pack[I] := Tcard.create(I mod 13, I mod 4);
@@ -50,7 +49,7 @@ end;
 
 function TPack.draw: Tcard;
 begin
-
+  result := pack[pack_top];
   if pack_top < 52 then
   begin
     inc(pack_top);
@@ -59,7 +58,7 @@ begin
   begin
     OutofCards;
   end;
-  result := pack[pack_top];
+
 end;
 
 procedure TPack.shuffle;

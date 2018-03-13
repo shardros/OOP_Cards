@@ -25,9 +25,10 @@ begin
   player1 := thand.create;
   player2 := thand.create;
   for i := 0 to 25 do
-    player1.AddToHand(deck.draw);
-  for i := 0 to 25 do
+  begin
     player2.AddToHand(deck.draw);
+    player1.AddToHand(deck.draw);
+  end;
 end;
 
 function play: integer;
@@ -41,7 +42,7 @@ begin
   begin
     card1 := player1.placecard(i);
     card2 := player2.placecard(i);
-    if card1.getscore > card2.getscore then //this breaks on the 26th round
+    if card1.getscore > card2.getscore then
     begin
       inc(score1);
     end
@@ -68,22 +69,48 @@ end;
 procedure destroy;
 begin
   deck.destroy;
+  player1.destroy;
+  player2.destroy;
 end;
 
 procedure test;
 var
-  i,x: integer;
-  average: array [0..51] of real;
+  i, x: integer;
+  scores: array [0 .. 51] of real;
+  sum, squareSum, mean, squaremean, meansquares: real;
+  card: Tcard;
 begin
-  for I := 0 to 10000 do
+  for I := 0 to 51 do
+    scores[i] := 0;
+  for i := 0 to 1000 do
   begin
     deck.shuffle;
     for x := 0 to 51 do
-      average[x] := (average[x] + deck.draw.GetScore)/2;
-  end;
-  for I := 0 to 51 do
     begin
-      writeln(average[i]);
+      card := deck.draw;
+      if x = 22 then begin
+        writeln(card.GetExplicitRank, ' of ', card.GetExplicitSuit);
+        writeln(card.getscore);
+        writeln(scores[x]);
+      end;
+      scores[x] := scores[x] + card.getscore;
     end;
+
+    {
+    for x := 0 to 51 do
+    begin
+      sum := scores[x] + sum;
+      squareSum := scores[x] * scores[x];
+    end;
+    mean := sum / 52;
+    meansquares := (squareSum / 52);
+    squaremean := mean * mean;
+    writeln('SD: ', sqrt(squaremean - meansquares):9:0);
+    sum := 0;
+    squareSum := 0; }
+  end;
+  for x := 0 to 51 do
+    writeln(x, ' : ' ,(scores[x]):9:0);
 end;
+
 end.
