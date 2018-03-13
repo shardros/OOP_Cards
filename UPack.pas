@@ -27,6 +27,7 @@ constructor TPack.create(debug: Boolean);
 var
   I: integer;
 begin
+
   for I := 0 to 51 do
   begin
     self.pack[I] := Tcard.create(I mod 13, I mod 4);
@@ -67,10 +68,9 @@ var
   random_pos: integer;
   I: integer;
 begin
-  randomize();
-  for I := 0 to 50 do
+  for I := 0 to 52 do
   begin
-    random_pos := I + random(50 - I); // like random range
+    random_pos := I + random(52 - I); // like random range
     temp := self.pack[random_pos];
     self.pack[random_pos] := self.pack[I];
     self.pack[I] := temp;

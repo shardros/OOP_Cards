@@ -15,6 +15,7 @@ var
   plar1, plar2, result, i: integer;
 
 begin
+  randomize();
   init;
   plar1 := 0;
   plar2 := 1;
