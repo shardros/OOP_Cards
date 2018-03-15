@@ -17,6 +17,7 @@ type
     function GetExplicitSuit: string;
     function GetSuit: integer;
     function GetScore: integer;
+
   end;
 
 implementation
@@ -101,5 +102,7 @@ function Tcard.GetSuit: integer;
 begin
   result := self.Suit;
 end;
+
+
 
 end.

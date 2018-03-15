@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils,
-  UCard, UExceptions;
+  UCard, UExceptions,System.Generics.Collections;
 
 type
   TPack = class
@@ -16,8 +16,12 @@ type
     constructor create(debug: Boolean);
     function draw: Tcard;
     procedure shuffle;
+    function interpretCard(input: string): TCard;
     destructor destroy;
   end;
+
+var
+  CardNames: TDictionary <string , integer>;
 
 implementation
 
@@ -27,6 +31,10 @@ constructor TPack.create(debug: Boolean);
 var
   I: integer;
 begin
+  //DEAL WITH THIS DICTIONARY
+
+  CardNames := TDictionary<string, integer>.Create();
+
 
   for I := 0 to 51 do
   begin
@@ -59,6 +67,11 @@ begin
   begin
     OutofCards;
   end;
+
+end;
+
+function TPack.interpretCard(input: string): TCard;
+begin
 
 end;
 
