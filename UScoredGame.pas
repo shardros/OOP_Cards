@@ -79,7 +79,13 @@ var
   scores: array [0 .. 51] of real;
   sum, squareSum, mean, squaremean, meansquares: real;
   card: Tcard;
+  input: string;
 begin
+  readln(input);
+  card := deck.interpretCard(input);
+  readln;
+end;
+{
   for I := 0 to 51 do
     scores[i] := 0;
   for i := 0 to 1000 do
@@ -107,10 +113,10 @@ begin
     squaremean := mean * mean;
     writeln('SD: ', sqrt(squaremean - meansquares):9:0);
     sum := 0;
-    squareSum := 0; }
+    squareSum := 0;
   end;
   for x := 0 to 51 do
     writeln(x, ' : ' ,(scores[x]):9:0);
-end;
+end; }
 
 end.

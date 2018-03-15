@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils,
-  UCard, UExceptions,System.Generics.Collections, System.StrUtils;
+  UCard, UExceptions,System.Generics.Collections;
 
 type
   TPack = class
@@ -99,16 +99,12 @@ begin
   for i := 0 to 51 do
     if (pack[i].GetRank = rank) and (pack[i].GetSuit = suit) then
       result := pack[i];
+
 end;
 
 function TPack.interpretCard(input: string): TCard;
-var SplitInput: Tarray<string>; rank, suit: integer;
-
 begin
-  SplitInput := input.Split([' ']);
-  rank := RankNames.Items[SplitInput[0]];
-  suit := suitNames.Items[SplitInput[2]];
-  result := find(rank,suit);
+
 end;
 
 procedure TPack.shuffle;
