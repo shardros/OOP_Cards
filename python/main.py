@@ -1,6 +1,7 @@
 from socket import *
 import threading
 
+
 host = "172.0.0.1"
 port = 13000
 toDelphiFile = "ToDelphi.csv"
