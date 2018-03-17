@@ -2,8 +2,8 @@ from socket import *
 import threading
 
 
-host = "172.0.0.1"
-port = 13000
+host = "192.168.1.13"
+port = 1234
 toDelphiFile = "ToDelphi.csv"
 fromDelphiFile = "ToPython.csv"
 
@@ -11,7 +11,7 @@ packets = []
 
 
 class network:
-    host = ""
+    host = "192.168.1.13"
     timeOut = 1
     buffer = 1024
 
