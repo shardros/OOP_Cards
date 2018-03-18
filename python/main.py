@@ -1,6 +1,5 @@
 from socket import *
-import threading
-
+import time
 
 host = "192.168.1.13"
 port = 1234
@@ -11,7 +10,7 @@ packets = []
 
 
 class network:
-    host = "192.168.1.13"
+    host = ""
     timeOut = 1
     buffer = 1024
 
@@ -19,21 +18,20 @@ class network:
         self.host = host
 
     def Send(self, data):
-        print("called send method")
         addr = (host, port)
+	print("atempting send to", addr)
         UDPSock = socket(AF_INET, SOCK_DGRAM)
-        print("init socket")
         UDPSock.sendto(data.encode("utf8", 'ignore'), addr)
-        print("sent data")
-        t = threading.Thread(target=self.Listen())
-        print("Created listener thread object")
-        t.start(self)
-        print("started thread; waiting for ACK")
-        t.join(self, timeout)
-        if ("ACK" == t):
-            return "Sent"
+	print("sent")
+
+    def SendData(self,data):
+        self.Send(data)
+        response = self.Listen()
+	print("response: ", response)
+        if (response == "ACK"):
+            return "RECIVED ACK"
         else:
-            return "NET FAIL: Send and timout occured"
+            return "NET FAIL"
 
     def Listen(self):
         print("stated listen method")
@@ -41,22 +39,21 @@ class network:
         UDPSock = socket(AF_INET, SOCK_DGRAM)
         UDPSock.bind(addr)
         print("bound port; waiting....")
-        data = UDPSock.recvfrom(self.buffer)
+        (data, hostAddr) = UDPSock.recvfrom(self.buffer)
         data = data.decode("utf-8")
+	print("Got data; ", data)
         return data
 
     def ListenForData(self):
         Data = self.Listen()
+        time.sleep(1)
         self.Send("ACK")
-        return Data
+        return Data      
 
 
 #from CSVHandeling import *
 
 
 n = network(host)
-print(n)
-print("sending test with timeout")
-n.Send("test")
-
+print(n.ListenForData())
 
