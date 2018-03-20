@@ -9,8 +9,7 @@ uses
   UPack in 'UPack.pas',
   UHand in 'UHand.pas',
   UExceptions in 'UExceptions.pas',
-  UScoredGame in 'UScoredGame.pas',
-  UHermaea in 'UHermaea.pas';
+  UScoredGame in 'UScoredGame.pas';
 
 var
   card: Tcard;
