@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 from socket import *
 import time
 
@@ -56,4 +57,17 @@ class network:
 
 n = network(host)
 print(n.ListenForData())
+=======
+import CSVHandeling as Handeling
+import networking as net
 
+
+ToPythonFileName = "ToPython.csv"
+ToDelphiFileName = "ToDelphi.csv"
+
+ToPython = Handeling.CSV(ToPythonFileName)
+ToDelphi = Handeling.CSV(ToDelphiFileName)
+>>>>>>> master
+
+print(ToDelphi.CSVRead())
+print(ToDelphi.MsgID)

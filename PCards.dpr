@@ -5,12 +5,11 @@ program PCards;
 
 uses
   System.SysUtils,
-  UCard in 'Units/UCard.pas',
-  UPack in 'Units/UPack.pas',
-  UHand in 'Units/UHand.pas',
-  UExceptions in 'Units/UExceptions.pas',
-  UScoredGame in 'Units/UScoredGame.pas',
-  UHermaea in 'Units/UHermaea.pas';
+  UCard in 'UCard.pas',
+  UPack in 'UPack.pas',
+  UHand in 'UHand.pas',
+  UExceptions in 'UExceptions.pas',
+  UScoredGame in 'UScoredGame.pas';
 
 var
   card: Tcard;
