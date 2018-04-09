@@ -1,20 +1,10 @@
 var http = require('http');
 var url = require('url');
-var md5 = require('md5');
 
-function User() {
-    var ID = md5(Math.random());
-
-    this.getUserID = function () {
-        return ID;
-    }
-}
-
-function Player(ID, num) {
+function Player(num) {
     var number = num;
     var hand = [];
     var ranksWon = [];
-    var playerID = ID;
 
     this.addToHand = function(card) {
         hand.push(card);
@@ -26,24 +16,14 @@ function Player(ID, num) {
     }
 
     this.getHand = function () {
-        return hand;
-    }
-
-    this.getID = function () {
-        return playerID;
+        result = hand;
     }
 }
 
-function Game(users) {
+function Game(numOfPlayers) {
     var deck = [];
-    var Finished = false;
-
     this.players = [];
-    this.players = users;
-
-    this.isFinished = function () {
-        return Finished;
-    }
+    var numberOfPlayers = numOfPlayers;
 
     this.dealToPlayer = function (player) {
         for (x = 0; x < 8; x++) {
@@ -62,37 +42,7 @@ function Game(users) {
 
 }
 
-function Lobby() {
-    var Games = [];
-    var waitingUsers = [];
-
-    this.maybeNewGame = function () {
-        if (waitingUsers.length > 1) this.createNewGame();
-    }
-
-    this.createNewGame = function () {
-        var g = new Game(waitingUsers)
-        Games.push(g)
-        waitingUsers.empty();
-    }
-
-    this.maybeRemoveGame = function () {
-        for (i = 0; i < Games.length; i++) {
-            if (Games[i].isFinished()) {
-                Games.splice(i, 1);
-            }
-        }
-    };
-
-    this.addUser = function (user) {
-        waitingUsers.push(user);
-    }
-
-}
-
 var G = new Game();
-
-
 
 http.createServer(function (req, res) {
     var q = url.parse(req.url, true);
