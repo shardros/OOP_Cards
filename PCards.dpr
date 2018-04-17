@@ -9,15 +9,10 @@ uses
   UPack in 'UPack.pas',
   UHand in 'UHand.pas',
   UExceptions in 'UExceptions.pas',
-  UScoredGame in 'UScoredGame.pas';
-
-var
-  card: Tcard;
-  input: string;
+  UFish in 'UFish.pas';
 
 begin
   randomize();
-  init;
-  test;
+
   readln;
 end.

@@ -13,18 +13,20 @@ type
     Hand: THandContents;
     Size: integer;
     EmptySpaces: TQueue<integer>;
+    procedure removeCardPointer(card: tcard);
   public
     constructor Create;
     function getcontents: THandContents;
     function placecard(index: integer): tcard; Overload;
     function placecard(card: tcard): tcard; Overload;
-    procedure removeCardPointer(card: tcard);
+    procedure removeCard(card: tcard);
     procedure AddToHand(card: tcard);
     function GetHandSize: integer;
     function findPos(rank, suit: integer): integer; Overload;
     function findPos(card: tcard): integer; Overload;
     function findCard(rank, suit: integer): tcard; Overload;
     function findCard(card: tcard): tcard; Overload;
+    function howManyOfRank(rank: integer): Boolean;
     destructor destroy;
 
   end;
@@ -33,13 +35,29 @@ implementation
 
 { Thand }
 
+function Thand.howManyOfRank(rank: integer): integer;
+var
+  i: integer;
+begin
+  result := 0;
+  for i := 0 to 51 do
+  begin
+    if not(Hand[i] = nil) then
+    begin
+      if Hand[i].GetRank = rank then
+        inc(rank);
+    end;
+  end;
+end;
+
 constructor Thand.Create;
 var
- i: integer;
+  i: integer;
 begin
   Size := 0;
   EmptySpaces := TQueue<integer>.Create();
-  for i := 0 to 51 do EmptySpaces.Enqueue(i);
+  for i := 0 to 51 do
+    EmptySpaces.Enqueue(i);
 end;
 
 destructor Thand.destroy;
@@ -50,40 +68,40 @@ end;
 
 function Thand.findCard(rank, suit: integer): tcard;
 var
-  I: integer;
+  i: integer;
 begin
-  for I := 0 to 51 do
-    if (Hand[I].GetRank = rank) and (Hand[I].GetSuit = suit) then
-      result := Hand[I];
+  for i := 0 to 51 do
+    if (Hand[i].GetRank = rank) and (Hand[i].GetSuit = suit) then
+      result := Hand[i];
 end;
 
 function Thand.findPos(rank, suit: integer): integer;
 var
-  I: integer;
+  i: integer;
 begin
-  for I := 0 to 51 do
-    if (Hand[I].GetRank = rank) and (Hand[I].GetSuit = suit) then
-      result := I;
+  for i := 0 to 51 do
+    if (Hand[i].GetRank = rank) and (Hand[i].GetSuit = suit) then
+      result := i;
 end;
 
 function Thand.findCard(card: tcard): tcard;
 var
-  I: integer;
+  i: integer;
 begin
-  for I := 0 to 51 do
-    if (Hand[I].GetRank = card.GetRank) and (Hand[I].GetSuit = card.GetSuit)
+  for i := 0 to 51 do
+    if (Hand[i].GetRank = card.GetRank) and (Hand[i].GetSuit = card.GetSuit)
     then
-      result := Hand[I];
+      result := Hand[i];
 end;
 
 function Thand.findPos(card: tcard): integer;
 var
-  I: integer;
+  i: integer;
 begin
-  for I := 0 to 51 do
-    if (Hand[I].GetRank = card.GetRank) and (Hand[I].GetSuit = card.GetSuit)
+  for i := 0 to 51 do
+    if (Hand[i].GetRank = card.GetRank) and (Hand[i].GetSuit = card.GetSuit)
     then
-      result := I;
+      result := i;
 end;
 
 function Thand.getcontents: THandContents;
@@ -109,7 +127,7 @@ begin
   self.removeCardPointer(card);
 end;
 
-procedure Thand.removeCardPointer(card: tcard);
+procedure Thand.removeCard(card: tcard);
 var
   index: integer;
 begin
