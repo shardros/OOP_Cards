@@ -15,6 +15,7 @@ type
     function GetRank: integer;
     function GetExplicitRank: string;
     function GetExplicitSuit: string;
+    function GetExplicitCard: string;
     function GetSuit: integer;
     function GetScore: integer;
 
@@ -56,6 +57,11 @@ begin
   else
     Rank := strtoint(r);
   end;
+end;
+
+function Tcard.GetExplicitCard: string;
+begin
+  result := self.GetExplicitRank + self.GetExplicitSuit;
 end;
 
 function Tcard.GetExplicitRank: string;

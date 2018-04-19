@@ -13,20 +13,19 @@ type
     Hand: THandContents;
     Size: integer;
     EmptySpaces: TQueue<integer>;
-    procedure removeCardPointer(card: tcard);
+    procedure removeCard(card: tcard);
   public
     constructor Create;
     function getcontents: THandContents;
     function placecard(index: integer): tcard; Overload;
     function placecard(card: tcard): tcard; Overload;
-    procedure removeCard(card: tcard);
     procedure AddToHand(card: tcard);
     function GetHandSize: integer;
     function findPos(rank, suit: integer): integer; Overload;
     function findPos(card: tcard): integer; Overload;
     function findCard(rank, suit: integer): tcard; Overload;
     function findCard(card: tcard): tcard; Overload;
-    function howManyOfRank(rank: integer): Boolean;
+    function howManyOfRank(rank: integer): integer;
     destructor destroy;
 
   end;
@@ -124,7 +123,7 @@ function Thand.placecard(card: tcard): tcard;
 begin
   result := card;
   dec(Size);
-  self.removeCardPointer(card);
+  self.removeCard(card);
 end;
 
 procedure Thand.removeCard(card: tcard);
@@ -134,13 +133,14 @@ begin
   index := self.findPos(card);
   self.Hand[index] := nil;
   EmptySpaces.Enqueue(index);
+  dec(size);
 end;
 
 function Thand.placecard(index: integer): tcard;
 begin
   result := Hand[index];
   dec(Size);
-  self.removeCardPointer(Hand[index]);
+  self.removeCard(Hand[index]);
 end;
 
 end.

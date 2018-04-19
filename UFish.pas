@@ -13,19 +13,23 @@ type
     deck: TPack;
   public
     constructor create(numberOfPlayers: integer);
-    function AskForCard(rank: integer; player: THand): TCard;
+    function AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCard;
   end;
 
 implementation
 
 { Fish }
 
-function Fish.AskForCard(rank: integer; player: THand): TCard;
+function Fish.AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCard;
 var
   Hand :THandContents;
+  I: integer;
 begin
-  Hand := player.getcontents;
-  Hand
+  hand := handFrom.getcontents;
+  for I := 0 to handFrom.howManyOfRank(rank) do begin
+
+  end;
+
 end;
 
 constructor Fish.create(numberOfPlayers: integer);
