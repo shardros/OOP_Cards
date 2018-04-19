@@ -11,8 +11,11 @@ uses
   UExceptions in 'UExceptions.pas',
   UFish in 'UFish.pas';
 
+var
+  Fish: TFish;
+
 begin
   randomize();
-
+  Fish := TFish.create(4);
   readln;
 end.

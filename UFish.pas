@@ -6,33 +6,38 @@ uses
   UHand, UPack, UCard, UExceptions;
 
 type
-  Fish = class
+  TFish = class
   private
 
     players: array of THand;
     deck: TPack;
   public
     constructor create(numberOfPlayers: integer);
-    function AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCard;
+    //function AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCard;
   end;
 
 implementation
 
 { Fish }
 
+{
 function Fish.AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCard;
 var
   Hand :THandContents;
   I: integer;
 begin
   hand := handFrom.getcontents;
-  for I := 0 to handFrom.howManyOfRank(rank) do begin
+  for I := 0 to 52 do begin
+    if HandFrom. then
 
+    for I := 0 to handFrom.howManyOfRank(rank) do begin
+
+    end;
   end;
 
-end;
+end;}
 
-constructor Fish.create(numberOfPlayers: integer);
+constructor TFish.create(numberOfPlayers: integer);
 var
   i, x: integer;
 begin
@@ -54,6 +59,8 @@ begin
       for x := 0 to 5 do players[i].AddToHand(deck.draw);
     end;
   end;
+
+  players[1].placecard(1);
 
 
 end;

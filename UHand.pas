@@ -6,7 +6,7 @@ uses
   UPack, UCard, Generics.Collections;
 
 type
-  THandContents = array [0 .. 51] of tcard;
+  THandContents = array of tcard;
 
   Thand = class
   private
@@ -25,6 +25,7 @@ type
     function findPos(card: tcard): integer; Overload;
     function findCard(rank, suit: integer): tcard; Overload;
     function findCard(card: tcard): tcard; Overload;
+    function findCardByRank(rank: integer): tcard;
     function howManyOfRank(rank: integer): integer;
     destructor destroy;
 
@@ -53,6 +54,7 @@ constructor Thand.Create;
 var
   i: integer;
 begin
+  setlength(Hand,size);
   Size := 0;
   EmptySpaces := TQueue<integer>.Create();
   for i := 0 to 51 do
@@ -93,13 +95,17 @@ begin
       result := Hand[i];
 end;
 
+function Thand.findCardByRank(rank: integer): tcard;
+begin
+
+end;
+
 function Thand.findPos(card: tcard): integer;
 var
   i: integer;
 begin
-  for i := 0 to 51 do
-    if (Hand[i].GetRank = card.GetRank) and (Hand[i].GetSuit = card.GetSuit)
-    then
+  for i := 0 to size do
+    if (Hand[i] = card) then
       result := i;
 end;
 
@@ -115,7 +121,8 @@ end;
 
 procedure Thand.AddToHand(card: tcard);
 begin
-  Hand[EmptySpaces.Dequeue()] := card;
+  SetLength(Hand, Length(Hand)+1);
+  Hand[High(Hand)] := card;
   inc(Size);
 end;
 
@@ -124,16 +131,23 @@ begin
   result := card;
   dec(Size);
   self.removeCard(card);
+  SetLength(Hand, Length(Hand)-1);
 end;
 
 procedure Thand.removeCard(card: tcard);
 var
-  index: integer;
+  i: integer;
 begin
+  for I := 0 to 3 do
+    writeln(Hand[i].GetExplicitRank);
+  delete(Hand, findPos(card), 1);
+  for I := 0 to 3 do
+    writeln(Hand[i].GetExplicitRank);
+{
   index := self.findPos(card);
   self.Hand[index] := nil;
   EmptySpaces.Enqueue(index);
-  dec(size);
+  dec(size);}
 end;
 
 function Thand.placecard(index: integer): tcard;
@@ -141,6 +155,7 @@ begin
   result := Hand[index];
   dec(Size);
   self.removeCard(Hand[index]);
+  SetLength(Hand, Length(Hand)-1);
 end;
 
 end.
