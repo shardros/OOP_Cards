@@ -17,7 +17,6 @@ type
     function getcontents: TCards;
     function placecard(index: integer): tcard; Overload;
     function placecard(card: tcard): tcard; Overload;
-    procedure AddTo(card: tcard);
     function findCardByRank(rank: integer): tcard;
     function howManyOfRank(rank: integer): integer;
     destructor destroy;

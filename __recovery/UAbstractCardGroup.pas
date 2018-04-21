@@ -24,7 +24,8 @@ implementation
 
 procedure TAbstractCardGroup.addTo(card: tcard);
 begin
-
+  setlength(cards, length(cards) + 1);
+  cards[High(cards)] := card;
 end;
 
 function TAbstractCardGroup.findCard(card: tcard): tcard;
