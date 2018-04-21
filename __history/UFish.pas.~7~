@@ -1,0 +1,80 @@
+unit UFish;
+
+interface
+
+uses
+  UHand, UPack, UCard, UExceptions;
+
+type
+  TFish = class
+  private
+    Hands: array of THand;
+    Scores: array of integer;
+    deck: TPack;
+  public
+    constructor create(numberOfPlayers: integer);
+    function AskForCard(rank: integer; Handfrom: THand; Handto: THand)
+      : array of TCard;
+    function GoFish(hand: THand): TCard;
+  end;
+
+implementation
+
+{ Fish }
+
+function TFish.AskForCard(rank: integer; Handfrom: THand; Handto: THand)
+  : array of TCard;
+var
+  HandFromContents: THandContents;
+  tempCard: TCard;
+  I: integer;
+begin
+  result := 0;
+  HandFromContents := Handfrom.getcontents;
+  for I := 0 to length(HandFromContents) do
+  begin
+    if (HandFromContents[I].getRank = rank) then
+    begin
+      Handto.AddToHand(Handfrom.placecard(I));
+      inc(result);
+    end;
+  end;
+end;
+
+constructor TFish.create(numberOfPlayers: integer);
+var
+  I, x: integer;
+begin
+  if numberOfPlayers > 4 then
+  begin
+    ETooManyPlayers;
+  end
+  else
+  begin
+
+    deck := TPack.create(false);
+    deck.shuffle;
+
+    SetLength(Hands, numberOfPlayers);
+    SetLength(Scores, numberOfPlayers);
+
+    for I := 0 to numberOfPlayers do
+    begin
+      Hands[I] := THand.create;
+      for x := 0 to 5 do
+        Hands[I].AddToHand(deck.draw);
+    end;
+  end;
+
+end;
+
+function TFish.GoFish(hand: THand): TCard;
+var
+  Card: Tcard;
+begin
+  card := deck.draw;
+  hand.AddToHand(card);
+  result := card;
+end;
+
+end.

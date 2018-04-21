@@ -5,12 +5,12 @@ interface
 uses
   System.SysUtils;
 
-procedure OutOfCards;
+procedure EOutOfCards;
 procedure ETooManyPlayers;
 
 implementation
 
-procedure OutOfCards;
+procedure EOutOfCards;
 begin
   writeln('Insufficent cards, can not draw requested card');
   raise Exception.Create('Out of cards');

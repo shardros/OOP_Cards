@@ -1,0 +1,143 @@
+unit UHand;
+
+interface
+
+uses
+  UPack, UCard, Generics.Collections;
+
+type
+  THandContents = array of tcard;
+
+  Thand = class
+  private
+    Hand: THandContents;
+    procedure removeCard(card: tcard);
+  public
+    constructor Create;
+    function getcontents: THandContents;
+    function placecard(index: integer): tcard; Overload;
+    function placecard(card: tcard): tcard; Overload;
+    procedure AddToHand(card: tcard);
+    function GetHandSize: integer;
+    function findPos(rank, suit: integer): integer; Overload;
+    function findPos(card: tcard): integer; Overload;
+    function findCard(rank, suit: integer): tcard; Overload;
+    function findCard(card: tcard): tcard; Overload;
+    function findCardByRank(rank: integer): tcard;
+    function howManyOfRank(rank: integer): integer;
+    destructor destroy;
+
+  end;
+
+implementation
+
+{ Thand }
+
+function Thand.howManyOfRank(rank: integer): integer;
+var
+  i: integer;
+begin
+  result := 0;
+  for i := 0 to 51 do
+  begin
+    if not(Hand[i] = nil) then
+    begin
+      if Hand[i].GetRank = rank then
+        inc(rank);
+    end;
+  end;
+end;
+
+constructor Thand.Create;
+var
+  i: integer;
+begin
+  setlength(Hand, 0);
+end;
+
+destructor Thand.destroy;
+begin
+
+end;
+
+function Thand.findCard(rank, suit: integer): tcard;
+var
+  i: integer;
+begin
+  for i := 0 to 51 do
+    if (Hand[i].GetRank = rank) and (Hand[i].GetSuit = suit) then
+      result := Hand[i];
+end;
+
+function Thand.findPos(rank, suit: integer): integer;
+var
+  i: integer;
+begin
+  for i := 0 to 51 do
+    if (Hand[i].GetRank = rank) and (Hand[i].GetSuit = suit) then
+      result := i;
+end;
+
+function Thand.findCard(card: tcard): tcard;
+var
+  i: integer;
+begin
+  for i := 0 to 51 do
+    if (Hand[i].GetRank = card.GetRank) and (Hand[i].GetSuit = card.GetSuit)
+    then
+      result := Hand[i];
+end;
+
+function Thand.findCardByRank(rank: integer): tcard;
+begin
+
+end;
+
+function Thand.findPos(card: tcard): integer;
+var
+  i: integer;
+begin
+  for i := 0 to length(Hand) do
+    if (Hand[i] = card) then
+      result := i;
+end;
+
+function Thand.getcontents: THandContents;
+begin
+  result := self.Hand;
+end;
+
+function Thand.GetHandSize: integer;
+begin
+  result := length(Hand);
+end;
+
+procedure Thand.AddToHand(card: tcard);
+begin
+  setlength(Hand, length(Hand) + 1);
+  Hand[High(Hand)] := card;
+end;
+
+function Thand.placecard(card: tcard): tcard;
+begin
+  result := card;
+  self.removeCard(card);
+  setlength(Hand, length(Hand) - 1);
+end;
+
+procedure Thand.removeCard(card: tcard);
+var
+  i: integer;
+begin
+  delete(Hand, findPos(card), 1);
+
+end;
+
+function Thand.placecard(index: integer): tcard;
+begin
+  result := Hand[index];
+  self.removeCard(Hand[index]);
+  setlength(Hand, length(Hand) - 1);
+end;
+
+end.

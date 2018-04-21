@@ -1,30 +1,23 @@
+{NOTES: UHand should be an inherited version of UPack?}
+
 unit UHand;
 
 interface
 
 uses
-  UPack, UCard, Generics.Collections;
+  UPack, UAbstractCardGroup, UCard, UTypes, Generics.Collections;
 
 type
-  THandContents = array of tcard;
-
-  Thand = class
+  Thand = class (TAbstractCardGroup)
   private
-    Hand: THandContents;
-    Size: integer;
-    EmptySpaces: TQueue<integer>;
     procedure removeCard(card: tcard);
+    function GetHandSize: integer;
   public
     constructor Create;
-    function getcontents: THandContents;
+    function getcontents: TCards;
     function placecard(index: integer): tcard; Overload;
     function placecard(card: tcard): tcard; Overload;
     procedure AddToHand(card: tcard);
-    function GetHandSize: integer;
-    function findPos(rank, suit: integer): integer; Overload;
-    function findPos(card: tcard): integer; Overload;
-    function findCard(rank, suit: integer): tcard; Overload;
-    function findCard(card: tcard): tcard; Overload;
     function findCardByRank(rank: integer): tcard;
     function howManyOfRank(rank: integer): integer;
     destructor destroy;
@@ -40,13 +33,9 @@ var
   i: integer;
 begin
   result := 0;
-  for i := 0 to 51 do
-  begin
-    if not(Hand[i] = nil) then
-    begin
-      if Hand[i].GetRank = rank then
-        inc(rank);
-    end;
+  for I := 0 to length(cards)-1 do begin
+    if cards[i].GetRank = rank then
+      inc(result);
   end;
 end;
 
@@ -54,108 +43,63 @@ constructor Thand.Create;
 var
   i: integer;
 begin
-  setlength(Hand,size);
-  Size := 0;
-  EmptySpaces := TQueue<integer>.Create();
-  for i := 0 to 51 do
-    EmptySpaces.Enqueue(i);
+  setlength(cards, 0);
 end;
 
 destructor Thand.destroy;
 begin
-  EmptySpaces.Clear;
-  EmptySpaces.destroy;
+
 end;
 
-function Thand.findCard(rank, suit: integer): tcard;
-var
-  i: integer;
-begin
-  for i := 0 to 51 do
-    if (Hand[i].GetRank = rank) and (Hand[i].GetSuit = suit) then
-      result := Hand[i];
-end;
-
-function Thand.findPos(rank, suit: integer): integer;
-var
-  i: integer;
-begin
-  for i := 0 to 51 do
-    if (Hand[i].GetRank = rank) and (Hand[i].GetSuit = suit) then
-      result := i;
-end;
-
-function Thand.findCard(card: tcard): tcard;
-var
-  i: integer;
-begin
-  for i := 0 to 51 do
-    if (Hand[i].GetRank = card.GetRank) and (Hand[i].GetSuit = card.GetSuit)
-    then
-      result := Hand[i];
-end;
 
 function Thand.findCardByRank(rank: integer): tcard;
-begin
-
-end;
-
-function Thand.findPos(card: tcard): integer;
 var
   i: integer;
 begin
-  for i := 0 to size do
-    if (Hand[i] = card) then
-      result := i;
+  for I := 0 to length(cards)-1 do begin
+    if cards[i].GetRank = rank then begin
+      result := cards[i];
+      break;
+    end;
+  end;
 end;
 
-function Thand.getcontents: THandContents;
+
+function Thand.getcontents: TCards;
 begin
-  result := self.Hand;
+  result := cards;
 end;
 
 function Thand.GetHandSize: integer;
 begin
-  result := Size;
+  result := length(cards);
 end;
 
 procedure Thand.AddToHand(card: tcard);
 begin
-  SetLength(Hand, Length(Hand)+1);
-  Hand[High(Hand)] := card;
-  inc(Size);
+  setlength(cards, length(cards) + 1);
+  cards[High(cards)] := card;
 end;
 
 function Thand.placecard(card: tcard): tcard;
 begin
   result := card;
-  dec(Size);
   self.removeCard(card);
-  SetLength(Hand, Length(Hand)-1);
 end;
 
 procedure Thand.removeCard(card: tcard);
 var
   i: integer;
 begin
-  for I := 0 to 3 do
-    writeln(Hand[i].GetExplicitRank);
-  delete(Hand, findPos(card), 1);
-  for I := 0 to 3 do
-    writeln(Hand[i].GetExplicitRank);
-{
-  index := self.findPos(card);
-  self.Hand[index] := nil;
-  EmptySpaces.Enqueue(index);
-  dec(size);}
+  delete(cards, findPos(card), 1);
+  setlength(cards, length(cards) - 1);
 end;
 
 function Thand.placecard(index: integer): tcard;
 begin
-  result := Hand[index];
-  dec(Size);
-  self.removeCard(Hand[index]);
-  SetLength(Hand, Length(Hand)-1);
+  result := cards[index];
+  self.removeCard(cards[index]);
+  setlength(cards, length(cards) - 1);
 end;
 
 end.

@@ -61,7 +61,7 @@ end;
 
 function Tcard.GetExplicitCard: string;
 begin
-  result := self.GetExplicitRank + self.GetExplicitSuit;
+  result := self.GetExplicitRank + ' of ' + self.GetExplicitSuit;
 end;
 
 function Tcard.GetExplicitRank: string;

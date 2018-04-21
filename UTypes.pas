@@ -1,8 +1,13 @@
 unit UTypes;
 
 interface
-  type
-    TArrayOfString = array of string;
+
+Uses
+  UCard;
+
+type
+  TArrayOfString = array of string;
+  TCards = array of TCard;        //SORT THIS OUT FUTURE ME!
 
 implementation
 

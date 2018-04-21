@@ -9,13 +9,19 @@ uses
   UPack in 'UPack.pas',
   UHand in 'UHand.pas',
   UExceptions in 'UExceptions.pas',
-  UFish in 'UFish.pas';
+  UFish in 'UFish.pas',
+  UAbstractCardGroup in 'UAbstractCardGroup.pas';
 
 var
   Fish: TFish;
+  playerNumber: integer;
 
 begin
   randomize();
-  Fish := TFish.create(4);
+
+  writeln('How many players: ');
+  readln(playerNumber);
+  Fish := TFish.create(playerNumber);
+
   readln;
 end.

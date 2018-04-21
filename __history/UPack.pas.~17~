@@ -1,0 +1,164 @@
+unit UPack;
+
+interface
+
+uses
+  System.SysUtils,
+  UCard, UExceptions, System.Generics.Collections, System.StrUtils;
+
+type
+  TPack = class
+  private
+    pack: array [0 .. 51] of Tcard;
+    pack_top: integer;
+  public
+    Debug: Boolean;
+    constructor create(Debug: Boolean);
+    function draw: Tcard;
+    function findPos(rank, suit: integer): integer; overload;
+    function findPos(card: Tcard): integer; overload;
+    function findCard(rank, suit: integer): Tcard; overload;
+    function findCard(card: Tcard): Tcard; overload;
+    procedure shuffle;
+    function interpretCard(input: string): Tcard;
+    destructor destroy;
+  end;
+
+var
+  RankNames: TDictionary<string, integer>;
+  SuitNames: TDictionary<string, integer>;
+
+implementation
+
+{ Tpack }
+
+constructor TPack.create(Debug: Boolean);
+var
+  I: integer;
+begin
+  // DEAL WITH THIS DICTIONARY
+
+  RankNames := TDictionary<string, integer>.create();
+
+  RankNames.add('Ace', 0);
+  RankNames.add('Two', 1);
+  RankNames.add('Three', 2);
+  RankNames.add('Four', 3);
+  RankNames.add('Five', 4);
+  RankNames.add('Six', 5);
+  RankNames.add('Seven', 6);
+  RankNames.add('Eight', 7);
+  RankNames.add('Nine', 8);
+  RankNames.add('Ten', 9);
+  RankNames.add('Jack', 10);
+  RankNames.add('Queen', 11);
+  RankNames.add('King', 12);
+
+  SuitNames := TDictionary<string, integer>.create();
+
+  SuitNames.add('Spades', 0);
+  SuitNames.add('Hearts', 1);
+  SuitNames.add('Clubs', 2);
+  SuitNames.add('Diamonds', 3);
+
+  for I := 0 to 51 do
+  begin
+    self.pack[I] := Tcard.create(I mod 13, I mod 4);
+    if Debug then
+      writeln(inttostr(I), '  NEW CARD CREATED: ', self.pack[I].getexplicitrank,
+        ' of ', self.pack[I].GetExplicitSuit);
+  end;
+  pack_top := 0;
+end;
+
+destructor TPack.destroy;
+var
+  I: integer;
+begin
+  for I := 0 to 51 do
+  begin
+    pack[I].Free;
+  end;
+end;
+
+function TPack.draw: Tcard;
+begin
+  result := pack[pack_top];
+  if pack_top < 52 then
+  begin
+    inc(pack_top);
+  end
+  else
+  begin
+    OutofCards;
+  end;
+
+end;
+
+function TPack.findCard(rank, suit: integer): Tcard;
+var
+  I: integer;
+begin
+  for I := 0 to 51 do
+    if (pack[I].GetRank = rank) and (pack[I].GetSuit = suit) then
+      result := pack[I];
+end;
+
+function TPack.findCard(card: Tcard): Tcard;
+var
+  I: integer;
+begin
+  for I := 0 to 51 do
+    if (pack[I].GetRank = card.GetRank) and (pack[I].GetSuit = card.GetSuit)
+    then
+      result := pack[I];
+end;
+
+function TPack.findPos(rank, suit: integer): integer;
+var
+  I: integer;
+begin
+  for I := 0 to 51 do
+    if (pack[I].GetRank = rank) and (pack[I].GetSuit = suit) then
+      result := I;
+end;
+
+function TPack.findPos(card: Tcard): integer;
+var
+  I: integer;
+begin
+  for I := 0 to 51 do
+    if (pack[I].GetRank = card.GetRank) and (pack[I].GetSuit = card.GetSuit)
+    then
+      result := I;
+end;
+
+function TPack.interpretCard(input: string): Tcard;
+var
+  SplitInput: Tarray<string>;
+  rank, suit: integer;
+
+begin
+  SplitInput := input.Split([' ']);
+  rank := RankNames.Items[SplitInput[0]];
+  suit := SuitNames.Items[SplitInput[2]];
+  result := findCard(rank, suit);
+end;
+
+procedure TPack.shuffle;
+var
+  temp: Tcard;
+  random_pos: integer;
+  I: integer;
+begin
+  for I := 0 to 52 do
+  begin
+    random_pos := I + random(52 - I); // like random range
+    temp := self.pack[random_pos];
+    self.pack[random_pos] := self.pack[I];
+    self.pack[I] := temp;
+  end;
+  pack_top := 0;
+end;
+
+end.
