@@ -17,7 +17,6 @@ type
     function getcontents: TCards;
     function placecard(index: integer): tcard; Overload;
     function placecard(card: tcard): tcard; Overload;
-    procedure AddToHand(card: tcard);
     function findCardByRank(rank: integer): tcard;
     function howManyOfRank(rank: integer): integer;
     destructor destroy;
@@ -75,11 +74,6 @@ begin
   result := length(cards);
 end;
 
-procedure Thand.AddToHand(card: tcard);
-begin
-  setlength(cards, length(cards) + 1);
-  cards[High(cards)] := card;
-end;
 
 function Thand.placecard(card: tcard): tcard;
 begin
