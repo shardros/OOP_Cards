@@ -91,7 +91,7 @@ function Lobby() {
             this.games.push(g);
             for (var i = 0;i < this.waitingUsers.length; i++) {
                 for (var x = 0;x < this.waitingUsers.length; x++) {
-                    console.log(this.waitingUsers[i].dataForUser);
+                    console.log("data for user " + i + ": " + (this.waitingUsers[i] instanceof User));
                 }
                 //this.waitingUsers[i].dataForUser.push("NEW GAME: " + this.games.gameID);
             }
