@@ -7,8 +7,8 @@ uses
 
 type
   TTable = class(TAbstractCardGroup)
-    private
-      constructor create;
+  private
+    constructor create;
   end;
 
   TFish = class
@@ -20,8 +20,7 @@ type
   public
     constructor create(numberOfPlayers: integer);
     function checkForBook(playerNum: integer): boolean;
-    function AskForCard(rank: integer; Handfrom: THand; Handto: THand)
-      : TCards;
+    function AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCards;
     function GoFish(hand: THand): TCard;
   end;
 
@@ -30,10 +29,9 @@ implementation
 { Fish }
 
 function TFish.AskForCard(rank: integer; Handfrom: THand; Handto: THand)
-  : TCards;
+  : TCards; // Adapt to recursively call itself when a player successfully gets a card maybe make it call go fish?
 var
   HandFromContents: TCards;
-  tempCard: TCard;
   I: integer;
 begin
   setlength(result, 0);
@@ -51,15 +49,17 @@ end;
 
 function TFish.checkForBook(playerNum: integer): boolean;
 var
-i,j: integer;
-Hand: THand;
+  I, j: integer;
+  hand: THand;
 begin
-  for i := 0 to 12 do begin
-    if (Hands[playerNum].howManyOfRank(i)=4) then begin
-      Hand := Hands[playerNum];
-      inc(scores[playerNum]);
+  for I := 0 to 12 do
+  begin
+    if (Hands[playerNum].howManyOfRank(I) = 4) then
+    begin
+      hand := Hands[playerNum];
+      inc(Scores[playerNum]);
       for j := 0 to 3 do
-        table.addTo(Hand.placecard(Hand.findCardByRank(i)));
+        Table.AddTo(hand.placecard(hand.findCardByRank(I)));
     end;
   end;
 end;
@@ -75,7 +75,7 @@ begin
   else
   begin
 
-    table := TTable.Create;
+    Table := TTable.create;
 
     deck := TPack.create(false);
     deck.shuffle;

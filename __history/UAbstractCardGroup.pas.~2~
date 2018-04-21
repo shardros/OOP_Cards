@@ -14,19 +14,12 @@ type
     function findPos(card: tcard): integer; Overload;
     function findCard(rank, suit: integer): tcard; Overload;
     function findCard(card: tcard): tcard; Overload;
-    procedure addTo(card: tcard);
   end;
 
 
 implementation
 
 { TAbstractCardGroup }
-
-procedure TAbstractCardGroup.addTo(card: tcard);
-begin
-  setlength(cards, length(cards) + 1);
-  cards[High(cards)] := card;
-end;
 
 function TAbstractCardGroup.findCard(card: tcard): tcard;
 var
