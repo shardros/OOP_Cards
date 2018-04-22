@@ -3,9 +3,14 @@ unit UFish;
 interface
 
 uses
-  UHand, UPack, UCard, UTypes, UAbstractCardGroup, UExceptions;
+  UHand, UPack, UCard, UAbstractCardGroup, UExceptions;
 
 type
+
+  TArrayOfHand = array of THand;
+
+
+
   TTable = class(TAbstractCardGroup)
   private
     constructor create;
@@ -13,7 +18,7 @@ type
 
   TFish = class
   private
-    Hands: array of THand;
+    Hands: TArrayOfHand;
     Table: TTable;
     Scores: array of integer;
     deck: TPack;
@@ -22,6 +27,9 @@ type
     function checkForBook(playerNum: integer): boolean;
     function AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCards;
     function GoFish(hand: THand): TCard;
+
+    property players: TArrayOfHand read Hands write Hands;
+    property pack: TPack read deck write deck;
   end;
 
 implementation
@@ -81,7 +89,7 @@ begin
 
     Table := TTable.create;
 
-    deck := TPack.create(false);
+    deck := TPack.create();
     deck.shuffle;
 
     setlength(Hands, numberOfPlayers);

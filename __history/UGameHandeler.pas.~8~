@@ -3,34 +3,29 @@ unit UGameHandeler;
 interface
 
 uses
-  System.SysUtils, classes, UCard, UFileHandeling, UFish,
-  System.Generics.Collections;
+  System.SysUtils, classes, UTypes, UCard, UFileHandeling, UFish, System.Generics.Collections;
 
 type
-  TArrayOfString = Tarray<string>;
-  TCards = array of TCard;
-
   TGameHandeler = class
-  private
-    Delimiter: string;
+    private
+      Delimiter: string;
 
-    commands: TDictionary<string, integer>;
-    RankNames: TDictionary<string, integer>;
-    SuitNames: TDictionary<string, integer>;
+      commands: TDictionary<string, integer>;
+      RankNames: TDictionary<string, integer>;
+      SuitNames: TDictionary<string, integer>;
 
-    game: TFish;
-    currentUser: integer;
+      game: TFish;
+      currentUser: integer;
 
-  public
-    constructor create;
-    function GetUserIn: TArrayOfString;
-    procedure man;
-    procedure ExecuteUserInstruction(cmd: TArrayOfString);
-    procedure Welcome;
-    procedure play;
-    function interpretCard(input: string): TCard;
-    function interpretRank(input: string): integer;
-    Destructor destroy;
+    public
+      constructor create;
+      function GetUserIn: TArrayOfString;
+      procedure man;
+      procedure ExecuteUserInstruction(cmd: TArrayOfString);
+      procedure Welcome;
+      procedure play;
+      function interpretCard(input: string): Tcard;
+      function interpretRank(input: string): integer;
   end;
 
 const
@@ -50,11 +45,11 @@ begin
     readln(userin);
   end;
 
-  result := userin.Split([Delimiter]);
+  result := userin.Split([delimiter]);
 
 end;
 
-function TGameHandeler.interpretCard(input: string): TCard;
+function TGameHandeler.interpretCard(input: string): Tcard;
 var
   SplitInput: Tarray<string>;
   rank, suit: integer;
@@ -72,8 +67,6 @@ begin
 end;
 
 constructor TGameHandeler.create;
-var
-  playerNumber: integer;
 begin
   Delimiter := '; ';
 
@@ -101,33 +94,14 @@ begin
   SuitNames.add('Diamonds', 3);
 
   commands := TDictionary<string, integer>.create();
+  commands.Add('m', 0);
+  commands.Add('man', 0);
+  commands.Add('n', 1);
+  commands.Add('new', 1);
+  commands.Add('a', 2);
+  commands.Add('ask', 2);
 
-  commands.add('m', 0);
-  commands.add('man', 0);
-  commands.add('s', 1);
-  commands.add('save', 1);
-  commands.add('a', 2);
-  commands.add('ask', 2);
-  commands.add('q', 3);
-  commands.add('quit', 3);
-
-  Welcome;
-
-  repeat
-    write('How many players: ');
-    readln(playerNumber);
-  until (playerNumber > 0) and (playerNumber < 5);
-
-  game := TFish.create(playerNumber);
-
-end;
-
-destructor TGameHandeler.destroy; // Do I also need to call destory.
-begin
-  RankNames.Free;
-  SuitNames.Free;
-  commands.Free;
-  game.Free;
+  welcome;
 end;
 
 procedure TGameHandeler.ExecuteUserInstruction(cmd: TArrayOfString);
@@ -135,15 +109,13 @@ begin
   case commands.Items[cmd[0]] of
     0:
       man;
-    // 1:
-    // Add code to save game
+    1:
+      game := TFish.create(strToint(cmd[1]));
+    //There should be error checking here to make sure that more than zero users is entered
+   { 2:
+      game.AskForCard()
+  }end;
 
-    2:
-      game.AskForCard(interpretRank(cmd[1]), game.players[currentUser],
-        game.players[strToint(cmd[2])]);
-    3:
-      game.destroy;
-  end;
 
 end;
 
@@ -152,9 +124,9 @@ var
   manFile: TFile;
   mancontents: TArrayOfString;
 begin
-  manFile := TFile.create(manFilePath);
-  manFile.printfile;
-  manFile.destroy;
+  manfile := TFile.create(manfilepath);
+  manfile.printfile;
+  manfile.Destroy;
 end;
 
 procedure TGameHandeler.play;
@@ -169,8 +141,8 @@ var
   welcomeFile: TFile;
 begin
   welcomeFile := TFile.create(welcomeFilePath);
-  welcomeFile.printfile;
-  welcomeFile.destroy;
+  welcomeFile.printFile;
+  welcomeFile.Destroy;
 end;
 
 end.

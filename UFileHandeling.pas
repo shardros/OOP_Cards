@@ -3,9 +3,11 @@ unit UFileHandeling;
 interface
 
 uses
-  sysutils, UTypes;
+  sysutils;
 
 type
+  TArrayOfString = Tarray<string>;
+
   TFile = class
   public
     constructor Create(filename: string);

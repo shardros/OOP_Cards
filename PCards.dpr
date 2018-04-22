@@ -30,4 +30,6 @@ begin
   GameHandeler := TGameHandeler.create();
 
   readln;
+
+  GameHandeler.destroy;
 end.

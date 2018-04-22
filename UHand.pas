@@ -1,11 +1,9 @@
-{NOTES: UHand should be an inherited version of UPack?}
-
 unit UHand;
 
 interface
 
 uses
-  UPack, UAbstractCardGroup, UCard, UTypes, Generics.Collections;
+  UPack, UAbstractCardGroup, UCard, Generics.Collections;
 
 type
   Thand = class (TAbstractCardGroup)

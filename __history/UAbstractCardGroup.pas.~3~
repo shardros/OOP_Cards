@@ -2,13 +2,9 @@ unit UAbstractCardGroup;
 
 interface
 uses
-  UCard;
+  UCard, UTypes;
 
 type
-  TArrayOfString = Tarray<string>;
-  TCards = array of TCard;
-
-
   TAbstractCardGroup = class abstract
   protected
     cards: TCards;

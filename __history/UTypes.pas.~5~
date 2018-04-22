@@ -1,0 +1,17 @@
+unit UTypes;
+
+interface
+
+Uses
+  UCard, UHand;
+
+type
+  TArrayOfString = Tarray<string>;
+  TArrayOfHand = array of THand;
+  TCards = array of TCard;
+
+
+
+implementation
+
+end.
