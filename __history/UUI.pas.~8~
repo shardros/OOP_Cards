@@ -1,0 +1,70 @@
+unit UUI;
+
+interface
+
+uses
+  System.SysUtils, classes, UTypes, UFileHandeling, System.Generics.Collections;
+
+type
+  TUI = class
+    private
+      Delimiter: Char;
+      comands: TDictionary<string, integer>;
+    public
+      constructor create;
+      function cmdln: TStrings;
+      procedure man;
+      procedure ExecuteUserInstruction;
+  end;
+
+const
+  manFilePath = 'man.txt';
+
+implementation
+
+{ TUI }
+
+function TUI.cmdln: TStrings;
+var
+  userin: string;
+  i: integer;
+begin
+  while length(userin) < 3 do
+  begin
+    write('~: ');
+    readln(userin);
+  end;
+
+  result.Clear;
+  result.Delimiter := self.Delimiter;
+  result.StrictDelimiter := True;
+  result.DelimitedText := userin;
+
+end;
+
+constructor TUI.create;
+begin
+  Delimiter := ';';
+end;
+
+procedure TUI.ExecuteUserInstruction;
+var
+  cmd: TStrings;
+begin
+  cmd := cmdln;
+
+end;
+
+procedure TUI.man;
+var
+  i: integer;
+  manFile: TFile;
+  mancontents: TArrayOfString;
+begin
+  manfile := TFile.create(manfilepath);
+  manfile.printfile;
+  manfile.Destroy;
+end;
+
+
+end.

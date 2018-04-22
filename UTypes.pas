@@ -6,8 +6,9 @@ Uses
   UCard;
 
 type
-  TArrayOfString = array of string;
-  TCards = array of TCard;        //SORT THIS OUT FUTURE ME!
+  TArrayOfString = Tarray<string>;//array of string;
+  TCards = array of TCard;
+
 
 implementation
 

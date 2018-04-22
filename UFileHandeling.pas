@@ -9,11 +9,11 @@ type
   TFile = class
   public
     constructor Create(filename: string);
-    function getfilelength(filename: string): integer;
-    function readfile(filename: string): TArrayOfString;
-    procedure writefile(filename: string; data: string);
-    procedure appendfile(filename: string; data: string);
-    procedure printfile(filename: string);
+    function getfilelength: integer;
+    function readfile: TArrayOfString;
+    procedure writefile(data: string);
+    procedure appendfile(data: string);
+    procedure printfile;
     Destructor Destroy;
   private
     filename: string;
@@ -65,7 +65,7 @@ var
   filecontents: TArrayOfString;
   i: integer;
 begin
-  filecontents := readfile(self.filename);
+  filecontents := self.readfile();
   for i := 0 to length(filecontents) - 1 do
   begin
     writeln(filecontents[i])

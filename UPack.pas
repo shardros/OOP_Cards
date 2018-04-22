@@ -1,4 +1,4 @@
-{NOTES: UHand should be an inherited version of UPack?}
+{ NOTES: UHand should be an inherited version of UPack? }
 
 unit UPack;
 
@@ -6,12 +6,15 @@ interface
 
 uses
   System.SysUtils,
-  UCard, UAbstractCardGroup, UExceptions, System.Generics.Collections, System.StrUtils;
+  UCard, UAbstractCardGroup, UExceptions, System.Generics.Collections,
+  System.StrUtils;
 
 type
-  TPack = class (TAbstractCardGroup)
+  TPack = class(TAbstractCardGroup)
   private
     pack_top: integer;
+    RankNames: TDictionary<string, integer>;
+    SuitNames: TDictionary<string, integer>;
   public
     Debug: Boolean;
     constructor create(Debug: Boolean);
@@ -21,10 +24,6 @@ type
     destructor destroy;
   end;
 
-var
-  RankNames: TDictionary<string, integer>;
-  SuitNames: TDictionary<string, integer>;
-
 implementation
 
 { Tpack }
@@ -33,7 +32,7 @@ constructor TPack.create(Debug: Boolean);
 var
   I: integer;
 begin
-  setlength(cards,52);
+  setlength(cards, 52);
 
   // DEAL WITH THIS DICTIONARY
 
@@ -80,7 +79,7 @@ begin
   end;
 end;
 
-function TPack.draw: Tcard; //This should be done using a stack
+function TPack.draw: Tcard; // This should be done using a stack
 begin
   result := cards[pack_top];
   if pack_top < 52 then

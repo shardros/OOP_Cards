@@ -10,18 +10,24 @@ uses
   UHand in 'UHand.pas',
   UExceptions in 'UExceptions.pas',
   UFish in 'UFish.pas',
-  UAbstractCardGroup in 'UAbstractCardGroup.pas';
+  UAbstractCardGroup in 'UAbstractCardGroup.pas',
+  UGameHandeler in 'UGameHandeler.pas',
+  UFileHandeling in 'UFileHandeling.pas';
 
 var
-  Fish: TFish;
-  playerNumber: integer;
+  GameHandeler: TGameHandeler;
+
+{
+NOTES TO SELF
+-Ensure no memory leaks
+
+
+}
 
 begin
   randomize();
 
-  writeln('How many players: ');
-  readln(playerNumber);
-  Fish := TFish.create(playerNumber);
+  GameHandeler := TGameHandeler.create();
 
   readln;
 end.

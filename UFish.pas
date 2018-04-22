@@ -32,19 +32,23 @@ function TFish.AskForCard(rank: integer; Handfrom: THand; Handto: THand)
   : TCards; // Adapt to recursively call itself when a player successfully gets a card maybe make it call go fish?
 var
   HandFromContents: TCards;
-  I: integer;
+  GotCardFromPlayer: boolean;
+  I, r: integer;
+  hf: TCard;
 begin
-  setlength(result, 0);
-  HandFromContents := Handfrom.getcontents;
-  for I := 0 to length(HandFromContents) do
-  begin
-    if (HandFromContents[I].getRank = rank) then
+    GotCardFromPlayer := false;
+    setlength(result, 0);
+    HandFromContents := Handfrom.getcontents;
+    for I := 0 to length(HandFromContents) do
     begin
-      setlength(result, length(result) + 1);
-      result[length(result) - 1] := HandFromContents[I];
-      Handto.AddTo(Handfrom.placecard(I));
+      if (HandFromContents[I].getRank = rank) then
+      begin
+        setlength(result, length(result) + 1);
+        result[length(result) - 1] := HandFromContents[I];
+        Handto.AddTo(Handfrom.placecard(I));
+        GotCardFromPlayer := true;
+      end;
     end;
-  end;
 end;
 
 function TFish.checkForBook(playerNum: integer): boolean;

@@ -1,0 +1,58 @@
+unit UUI;
+
+interface
+
+uses
+  System.SysUtils, classes, UTypes, UFileHandeling;
+
+type
+  TUI = class
+    private
+      Delimiter: Char;
+    public
+      function create;
+      function cmdln(): TStrings;
+      procedure man();
+  end;
+
+const
+  manFilePath = 'man.txt';
+
+implementation
+
+{ TUI }
+
+function TUI.cmdln: TStrings;
+var
+  userin: string;
+  i: integer;
+begin
+  while length(userin) < 3 do
+  begin
+    write('~: ');
+    readln(userin);
+  end;
+
+  result.Clear;
+  result.Delimiter := self.Delimiter;
+  result.StrictDelimiter := True;
+  result.DelimitedText := userin;
+
+end;
+
+procedure TUI.man;
+var
+  i: integer;
+  manFile: TFile;
+  mancontents: TArrayOfString;
+begin
+  manfile := TFile.create;
+  mancontents := manfile.readfile(manfile);
+  for I := 0 to length(mancontents)-1 do
+    begin
+      writeln(mancontents[i]);
+    end;
+end;
+
+
+end.

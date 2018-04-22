@@ -1,0 +1,66 @@
+
+// This is the set of functions that I made for the palindromes and anagrams assignment
+
+unit UUI;
+
+interface
+
+uses
+  System.SysUtils, classes, UTypes; //UFileHandeler;
+
+
+procedure Split(Delimiter: Char; Str: string; ListOfStrings: TStrings);
+
+procedure menu(var arr: TArrayOfString);
+
+procedure man();
+
+implementation
+
+procedure Split(Delimiter: Char; Str: string; ListOfStrings: TStrings);
+{ This splits a string on a certain character and is based on pythons
+  string.split() function }
+begin
+  ListOfStrings.Clear;
+  ListOfStrings.Delimiter := Delimiter;
+  ListOfStrings.StrictDelimiter := True;
+  ListOfStrings.DelimitedText := Str;
+end;
+
+procedure menu(var arr: TStrings); {
+  This handles the user interaction. It alows the user to enter a command and
+  parameter seperated by a ; it then returns this in the array it is passed }
+var
+  OutputList: TStringList;
+  // Required as Split uses lists not arrays because I wanted to play with lists
+  userin: string;
+  i: integer;
+begin
+  OutputList := TStringList.Create; // creates the list
+  while length(userin) < 3 do
+  begin
+    write('~: ');
+    readln(userin);
+  end;
+  Split(';', userin, OutputList); // split userin on ";" and return to OutputList
+  for i := 0 to OutputList.Count - 1 do // Copies list of array
+    arr[i] := OutputList[i];
+  OutputList.Free;
+end;
+
+{
+procedure man();
+const
+manfile = 'man.txt';
+
+var
+  i: integer;
+begin
+  mancontents := readfile(manfile);
+  for I := 0 to length(mancontents)-1 do
+    begin
+      writeln(mancontents[i]);
+    end;
+end;
+ }
+end.

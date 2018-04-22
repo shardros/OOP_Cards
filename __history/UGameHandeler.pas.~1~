@@ -1,0 +1,76 @@
+unit UGameHandeler;
+
+interface
+
+uses
+  System.SysUtils, classes, UTypes, UFileHandeling, UFish, System.Generics.Collections;
+
+type
+  TGameHandeler = class
+    private
+      Delimiter: Char;
+      commands: TDictionary<string, integer>;
+      game: TFish;
+    public
+      constructor create;
+      function cmdln: TStrings;
+      procedure man;
+      procedure ExecuteUserInstruction;
+  end;
+
+const
+  manFilePath = 'man.txt';
+
+implementation
+
+{ TGameHandeler }
+
+function TGameHandeler.cmdln: TStrings;
+var
+  userin: string;
+  i: integer;
+begin
+  while length(userin) < 3 do
+  begin
+    write('~: ');
+    readln(userin);
+  end;
+
+  result := userin.Split([delimiter]);
+
+end;
+
+constructor TGameHandeler.create;
+begin
+  Delimiter := ';';
+
+  commands := TDictionary<string, integer>.create();
+  commands.Add('n', 0);
+  commands.Add('new', 0);
+end;
+
+procedure TGameHandeler.ExecuteUserInstruction;
+var
+  cmd: TStrings;
+begin
+  cmd := cmdln;
+  case commands.Items[cmd[0]] of
+    0:
+  end;
+
+
+end;
+
+procedure TGameHandeler.man;
+var
+  i: integer;
+  manFile: TFile;
+  mancontents: TArrayOfString;
+begin
+  manfile := TFile.create(manfilepath);
+  manfile.printfile;
+  manfile.Destroy;
+end;
+
+
+end.
