@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, classes, UCard, UFileHandeling, UFish,
-  System.Generics.Collections;
+  System.Generics.Collections, UAbstractCardGroup;
 
 type
   TArrayOfString = Tarray<string>;
@@ -68,7 +68,7 @@ end;
 
 function TGameHandeler.interpretRank(input: string): integer;
 begin
-
+  result := RankNames.Items[input];
 end;
 
 constructor TGameHandeler.create;
@@ -124,13 +124,16 @@ end;
 
 destructor TGameHandeler.destroy; // Do I also need to call destory.
 begin
-  RankNames.Free;
-  SuitNames.Free;
-  commands.Free;
-  game.Free;
+  RankNames.destroy;
+  SuitNames.destroy;
+  commands.destroy;
+  game.destroy;
 end;
 
 procedure TGameHandeler.ExecuteUserInstruction(cmd: TArrayOfString);
+var
+  cards: UAbstractCardGroup.TCards;
+  i: integer;
 begin
   case commands.Items[cmd[0]] of
     0:
@@ -139,8 +142,18 @@ begin
     // Add code to save game
 
     2:
-      game.AskForCard(interpretRank(cmd[1]), game.players[currentUser],
-        game.players[strToint(cmd[2])]);
+      begin
+      cards := game.AskForCard(interpretRank(cmd[1]), game.players[currentUser], game.players[strToint(cmd[2])]);
+        if length(cards) = 0 then begin
+          writeln('Player does not have card');
+          writeln('GO FISH');
+          writeln('Got card: ', game.GoFish(game.players[currentUser]).GetExplicitCard);
+        end else begin
+          writeln('Got cards from user');
+          for i := 0 to length(cards)-1 do
+            writeln(cards[i].GetExplicitCard);
+        end;
+      end;
     3:
       game.destroy;
   end;
@@ -151,6 +164,7 @@ procedure TGameHandeler.man;
 var
   manFile: TFile;
   mancontents: TArrayOfString;
+
 begin
   manFile := TFile.create(manFilePath);
   manFile.printfile;
@@ -158,8 +172,34 @@ begin
 end;
 
 procedure TGameHandeler.play;
-begin
+var
+  i,x: integer;
+  cardsInHand: UAbstractCardGroup.TCards;
 
+begin
+  while True do begin  //This should be conitional on game end.
+
+    for I := 0 to length(game.players) do begin
+
+      writeln('----------------------------');
+      writeln('Player ', intToStr(i), ' turn!');
+      writeln('Your hand contains: ');
+
+      cardsInHand := game.players[i].getcontents;
+
+      for x := 0 to length(cardsInHand)-1 do
+        writeln(cardsInHand[x].GetExplicitCard);
+
+      writeln('');
+      ExecuteUserInstruction(GetUserIn);
+
+      if game.checkForBook(currentUser) then
+        writeln('YOU GOT A BOOK!');
+
+      writeln('Waiting for enter for next player');
+      readln;
+    end;
+  end;
 end;
 
 procedure TGameHandeler.Welcome;

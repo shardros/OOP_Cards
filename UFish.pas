@@ -28,6 +28,8 @@ type
     function AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCards;
     function GoFish(hand: THand): TCard;
 
+    destructor destroy;
+
     property players: TArrayOfHand read Hands write Hands;
     property pack: TPack read deck write deck;
   end;
@@ -47,7 +49,7 @@ begin
     GotCardFromPlayer := false;
     setlength(result, 0);
     HandFromContents := Handfrom.getcontents;
-    for I := 0 to length(HandFromContents) do
+    for I := 0 to length(HandFromContents)-1 do
     begin
       if (HandFromContents[I].getRank = rank) then
       begin
@@ -98,10 +100,15 @@ begin
     for I := 0 to numberOfPlayers do
     begin
       Hands[I] := THand.create;
-      for x := 0 to 5 do
+      for x := 0 to 7 do
         Hands[I].AddTo(deck.draw);
     end;
   end;
+
+end;
+
+destructor TFish.destroy;
+begin
 
 end;
 

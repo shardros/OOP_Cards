@@ -8,7 +8,6 @@ type
   TArrayOfString = Tarray<string>;
   TCards = array of TCard;
 
-
   TAbstractCardGroup = class abstract
   protected
     cards: TCards;
