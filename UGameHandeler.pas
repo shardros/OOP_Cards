@@ -30,6 +30,7 @@ type
     procedure play;
     function interpretCard(input: string): TCard;
     function interpretRank(input: string): integer;
+    procedure finish;
     Destructor destroy;
   end;
 
@@ -80,25 +81,51 @@ begin
   RankNames := TDictionary<string, integer>.create();
 
   RankNames.add('Ace', 0);
+  RankNames.add('ace', 0);
   RankNames.add('Two', 1);
+  RankNames.add('two', 1);
+  RankNames.add('2', 1);
   RankNames.add('Three', 2);
+  RankNames.add('three', 2);
+  RankNames.add('3', 2);
   RankNames.add('Four', 3);
+  RankNames.add('four', 3);
+  RankNames.add('4', 3);
   RankNames.add('Five', 4);
+  RankNames.add('five', 4);
+  RankNames.add('5', 4);
   RankNames.add('Six', 5);
+  RankNames.add('six', 5);
+  RankNames.add('6', 5);
   RankNames.add('Seven', 6);
+  RankNames.add('seven', 6);
+  RankNames.add('7', 6);
   RankNames.add('Eight', 7);
+  RankNames.add('eight', 7);
+  RankNames.add('8', 7);
   RankNames.add('Nine', 8);
+  RankNames.add('nine', 8);
+  RankNames.add('9', 8);
   RankNames.add('Ten', 9);
+  RankNames.add('ten', 9);
+  RankNames.add('10', 9);
   RankNames.add('Jack', 10);
+  RankNames.add('jack', 10);
   RankNames.add('Queen', 11);
+  RankNames.add('queen', 11);
   RankNames.add('King', 12);
+  RankNames.add('king', 12);
 
   SuitNames := TDictionary<string, integer>.create();
 
   SuitNames.add('Spades', 0);
+  SuitNames.add('spades', 0);
   SuitNames.add('Hearts', 1);
+  SuitNames.add('hearts', 1);
   SuitNames.add('Clubs', 2);
+  SuitNames.add('clubs', 2);
   SuitNames.add('Diamonds', 3);
+  SuitNames.add('diamonds', 3);
 
   commands := TDictionary<string, integer>.create();
 
@@ -122,7 +149,7 @@ begin
 
 end;
 
-destructor TGameHandeler.destroy; // Do I also need to call destory.
+destructor TGameHandeler.destroy;
 begin
   RankNames.destroy;
   SuitNames.destroy;
@@ -135,7 +162,7 @@ var
   cards: UAbstractCardGroup.TCards;
   i: integer;
 begin
-  case commands.Items[cmd[0]] of
+   case commands.Items[cmd[0]] of
     0:
       man;
     // 1:
@@ -156,6 +183,17 @@ begin
       end;
     3:
       game.destroy;
+  end;
+
+end;
+
+procedure TGameHandeler.finish;
+var
+  i: integer;
+begin
+  writeln('The scores were as follows');
+  for I := 0 to length(game.players) do begin
+    //add scores
   end;
 
 end;

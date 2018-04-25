@@ -29,6 +29,8 @@ begin
 
   GameHandeler := TGameHandeler.create();
 
+  GameHandeler.play;
+
   readln;
 
   GameHandeler.destroy;
