@@ -245,6 +245,7 @@ begin
 
     for i := 0 to length(game.players) do
     begin
+      currentuser := i;
 
       writeln('----------------------------');
       writeln('Player ', inttoStr(i), ' turn!');

@@ -40,8 +40,8 @@ implementation
 { Fish }
 
 function TFish.AskForCard(rank: integer; Handfrom: THand; Handto: THand)
-  : TCards; // Adapt to recursively call itself when a player successfully gets a card maybe make it call go fish?
-var
+  : TCards;
+  var
   HandFromContents: TCards;
   GotCardFromPlayer: boolean;
   I, r: integer;

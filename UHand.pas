@@ -84,14 +84,13 @@ var
   i: integer;
 begin
   delete(cards, findPos(card), 1);
-  setlength(cards, length(cards) - 1);
+
 end;
 
 function Thand.placecard(index: integer): tcard;
 begin
   result := cards[index];
-  self.removeCard(cards[index]);
-  setlength(cards, length(cards) - 1);
+  delete(cards, index, 1);
 end;
 
 end.
