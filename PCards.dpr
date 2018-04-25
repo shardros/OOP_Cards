@@ -17,21 +17,15 @@ uses
 var
   GameHandeler: TGameHandeler;
 
-{
-NOTES TO SELF
--Ensure no memory leaks
-
-
-}
-
 begin
   randomize();
-
   GameHandeler := TGameHandeler.create();
 
   GameHandeler.play;
 
+  writeln('Press enter to quit');
   readln;
 
   GameHandeler.destroy;
+  exit;
 end.

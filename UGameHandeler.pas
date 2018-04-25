@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, classes, UCard, UFileHandeling, UFish,
-  System.Generics.Collections, UAbstractCardGroup;
+  System.Generics.Collections, UAbstractCardGroup, math;
 
 type
   TArrayOfString = Tarray<string>;
@@ -30,7 +30,7 @@ type
     procedure play;
     function interpretCard(input: string): TCard;
     function interpretRank(input: string): integer;
-    procedure finish;
+    procedure displayBooks;
     Destructor destroy;
   end;
 
@@ -135,6 +135,8 @@ begin
   commands.add('save', 1);
   commands.add('a', 2);
   commands.add('ask', 2);
+  commands.add('A', 2);
+  commands.add('Ask', 2);
   commands.add('q', 3);
   commands.add('quit', 3);
 
@@ -143,6 +145,7 @@ begin
   repeat
     write('How many players: ');
     readln(playerNumber);
+    playerNumber := playerNumber - 1 // -= !!!!!
   until (playerNumber > 0) and (playerNumber < 5);
 
   game := TFish.create(playerNumber);
@@ -162,23 +165,41 @@ var
   cards: UAbstractCardGroup.TCards;
   i: integer;
 begin
-   case commands.Items[cmd[0]] of
+  case commands.Items[cmd[0]] of
     0:
-      man;
+      begin
+        man;
+        ExecuteUserInstruction(GetUserIn);
+      end;
     // 1:
     // Add code to save game
 
     2:
       begin
-      cards := game.AskForCard(interpretRank(cmd[1]), game.players[currentUser], game.players[strToint(cmd[2])]);
-        if length(cards) = 0 then begin
+        cards := game.AskForCard(interpretRank(cmd[1]),
+          game.players[strToint(cmd[2])], game.players[currentUser]);
+        if length(cards) = 0 then
+        begin
           writeln('Player does not have card');
           writeln('GO FISH');
-          writeln('Got card: ', game.GoFish(game.players[currentUser]).GetExplicitCard);
-        end else begin
+          writeln('Got card: ', game.GoFish(game.players[currentUser])
+            .GetExplicitCard);
+
+          writeln('');  
+          writeln('---');
+          writeln('The following books have been won:');
+          displayBooks;
+        end
+        else
+        begin
           writeln('Got cards from user');
-          for i := 0 to length(cards)-1 do
+          for i := 0 to length(cards) - 1 do
             writeln(cards[i].GetExplicitCard);
+
+          writeln('');  
+          writeln('---');  
+          writeln('The following books have been won:');
+          displayBooks;
         end;
       end;
     3:
@@ -187,15 +208,15 @@ begin
 
 end;
 
-procedure TGameHandeler.finish;
+procedure TGameHandeler.displayBooks;
 var
   i: integer;
 begin
-  writeln('The scores were as follows');
-  for I := 0 to length(game.players) do begin
-    //add scores
+  writeln('The books won are as follows');
+  for i := 0 to length(game.players) do
+  begin
+    writeln('Score for player ', inttoStr(i), ': ', inttoStr(game.books[i]));
   end;
-
 end;
 
 procedure TGameHandeler.man;
@@ -211,33 +232,56 @@ end;
 
 procedure TGameHandeler.play;
 var
-  i,x: integer;
+  i, x: integer;
   cardsInHand: UAbstractCardGroup.TCards;
+  totalBooksWon: integer;
 
 begin
-  while True do begin  //This should be conitional on game end.
 
-    for I := 0 to length(game.players) do begin
+  totalBooksWon := 0;
+  
+  while 12 > totalBooksWon do
+  begin
+
+    for i := 0 to length(game.players) do
+    begin
 
       writeln('----------------------------');
-      writeln('Player ', intToStr(i), ' turn!');
+      writeln('Player ', inttoStr(i), ' turn!');
       writeln('Your hand contains: ');
 
       cardsInHand := game.players[i].getcontents;
 
-      for x := 0 to length(cardsInHand)-1 do
+      for x := 0 to length(cardsInHand) - 1 do
         writeln(cardsInHand[x].GetExplicitCard);
 
       writeln('');
       ExecuteUserInstruction(GetUserIn);
 
       if game.checkForBook(currentUser) then
+      begin
         writeln('YOU GOT A BOOK!');
+        writeln('The scores are as follows');
+        displayBooks;
+      end;
 
       writeln('Waiting for enter for next player');
       readln;
+
+    end;
+
+    totalBooksWon := 0;
+    for i := 0 to length(game.books) do begin
+      totalBooksWon := totalBooksWon + 1
     end;
   end;
+
+  writeln('====================================');
+  writeln('-------------GAME OVER--------------');
+  writeln('====================================');
+
+  writeln('SCORES:');
+  displayBooks;
 end;
 
 procedure TGameHandeler.Welcome;

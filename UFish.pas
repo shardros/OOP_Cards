@@ -8,8 +8,7 @@ uses
 type
 
   TArrayOfHand = array of THand;
-
-
+  TArrayOfInterger = array of integer;
 
   TTable = class(TAbstractCardGroup)
   private
@@ -20,7 +19,7 @@ type
   private
     Hands: TArrayOfHand;
     Table: TTable;
-    Scores: array of integer;
+    Scores: TArrayOfInterger;
     deck: TPack;
   public
     constructor create(numberOfPlayers: integer);
@@ -32,6 +31,8 @@ type
 
     property players: TArrayOfHand read Hands write Hands;
     property pack: TPack read deck write deck;
+    property books: TArrayOfInterger read scores write scores;
+
   end;
 
 implementation
@@ -45,20 +46,22 @@ var
   GotCardFromPlayer: boolean;
   I, r: integer;
   hf: TCard;
+  test: TCard;
 begin
-    GotCardFromPlayer := false;
-    setlength(result, 0);
-    HandFromContents := Handfrom.getcontents;
-    for I := 0 to length(HandFromContents)-1 do
+  GotCardFromPlayer := false;
+  setlength(result, 0);
+  HandFromContents := Handfrom.getcontents;
+  for I := 0 to length(HandFromContents) - 1 do
+  begin
+    if (HandFromContents[I].getRank = rank) then
     begin
-      if (HandFromContents[I].getRank = rank) then
-      begin
-        setlength(result, length(result) + 1);
-        result[length(result) - 1] := HandFromContents[I];
-        Handto.AddTo(Handfrom.placecard(I));
-        GotCardFromPlayer := true;
-      end;
+      setlength(result, length(result) + 1);
+      result[length(result) - 1] := HandFromContents[I];
+      test := Handfrom.placecard(I);
+      Handto.AddTo(test);
+      GotCardFromPlayer := true;
     end;
+  end;
 end;
 
 function TFish.checkForBook(playerNum: integer): boolean;
@@ -99,6 +102,7 @@ begin
 
     for I := 0 to numberOfPlayers do
     begin
+      scores[i] := 0;
       Hands[I] := THand.create;
       for x := 0 to 7 do
         Hands[I].AddTo(deck.draw);

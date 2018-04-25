@@ -11,4 +11,9 @@
 |______//____  >\___  >__|     \______  /____/|__\____ |\___  >
              \/     \/                \/              \/    \/ 
 
-Hello troubled user,
+Hello troubled user you must for give me if this man page is conise but I ran out of time,
+
+man - gets you here
+save - maybe saves the game if I implement the code
+ask; <rank>; <user no> - allows you to ask for a card of a rank
+quit - Try and see!

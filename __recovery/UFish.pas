@@ -3,26 +3,36 @@ unit UFish;
 interface
 
 uses
-  UHand, UPack, UCard, UTypes, UAbstractCardGroup, UExceptions;
+  UHand, UPack, UCard, UAbstractCardGroup, UExceptions;
 
 type
+
+  TArrayOfHand = array of THand;
+  TArrayOfInterger = array of integer;
+
   TTable = class(TAbstractCardGroup)
-    private
-      constructor create;
+  private
+    constructor create;
   end;
 
   TFish = class
   private
-    Hands: array of THand;
+    Hands: TArrayOfHand;
     Table: TTable;
-    Scores: array of integer;
+    Scores: TArrayOfInterger;
     deck: TPack;
   public
     constructor create(numberOfPlayers: integer);
     function checkForBook(playerNum: integer): boolean;
-    function AskForCard(rank: integer; Handfrom: THand; Handto: THand)
-      : TCards;
+    function AskForCard(rank: integer; Handfrom: THand; Handto: THand): TCards;
     function GoFish(hand: THand): TCard;
+
+    destructor destroy;
+
+    property players: TArrayOfHand read Hands write Hands;
+    property pack: TPack read deck write deck;
+    property books: TArrayOfInterger read scores write scores;
+
   end;
 
 implementation
@@ -31,32 +41,42 @@ implementation
 
 function TFish.AskForCard(rank: integer; Handfrom: THand; Handto: THand)
   : TCards;
-var
+  var
   HandFromContents: TCards;
-  tempCard: TCard;
-  I: integer;
+  GotCardFromPlayer: boolean;
+  I, r: integer;
+  hf: TCard;
+  test: TCard;
 begin
+  GotCardFromPlayer := false;
   setlength(result, 0);
   HandFromContents := Handfrom.getcontents;
-  for I := 0 to length(HandFromContents) do
+  for I := 0 to length(HandFromContents) - 1 do
   begin
     if (HandFromContents[I].getRank = rank) then
     begin
       setlength(result, length(result) + 1);
       result[length(result) - 1] := HandFromContents[I];
-      Handto.AddTo(Handfrom.placecard(I));
+      test := Handfrom.placecard(I);
+      Handto.AddTo(test);
+      GotCardFromPlayer := true;
     end;
   end;
 end;
 
 function TFish.checkForBook(playerNum: integer): boolean;
 var
-i: integer;
+  I, j: integer;
+  hand: THand;
 begin
-  for i := 0 to 12 do begin
-    if (Hands[playerNum].howManyOfRank(i)=4) then begin
-      inc(scores[playerNum]);
-
+  for I := 0 to 12 do
+  begin
+    if (Hands[playerNum].howManyOfRank(I) = 4) then
+    begin
+      hand := Hands[playerNum];
+      inc(Scores[playerNum]);
+      for j := 0 to 3 do
+        Table.AddTo(hand.placecard(hand.findCardByRank(I)));
     end;
   end;
 end;
@@ -72,9 +92,9 @@ begin
   else
   begin
 
-    table := TTable.Create;
+    Table := TTable.create;
 
-    deck := TPack.create(false);
+    deck := TPack.create();
     deck.shuffle;
 
     setlength(Hands, numberOfPlayers);
@@ -82,11 +102,17 @@ begin
 
     for I := 0 to numberOfPlayers do
     begin
+      scores[i] := 0;
       Hands[I] := THand.create;
-      for x := 0 to 5 do
+      for x := 0 to 7 do
         Hands[I].AddTo(deck.draw);
     end;
   end;
+
+end;
+
+destructor TFish.destroy;
+begin
 
 end;
 
