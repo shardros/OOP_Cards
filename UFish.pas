@@ -51,7 +51,8 @@ begin
   GotCardFromPlayer := false;
   setlength(result, 0);
   HandFromContents := Handfrom.getcontents;
-  for I := 0 to length(HandFromContents) - 1 do
+  i := 0;
+  while i < length(HandFromContents) do
   begin
     if (HandFromContents[I].getRank = rank) then
     begin
@@ -61,6 +62,7 @@ begin
       Handto.AddTo(test);
       GotCardFromPlayer := true;
     end;
+    inc(i);
   end;
 end;
 

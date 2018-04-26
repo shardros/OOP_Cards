@@ -249,6 +249,7 @@ begin
 
       writeln('----------------------------');
       writeln('Player ', inttoStr(i), ' turn!');
+
       writeln('Your hand contains: ');
 
       cardsInHand := game.players[i].getcontents;
