@@ -20,6 +20,7 @@ type
     Hands: TArrayOfHand;
     Table: TTable;
     Scores: TArrayOfInterger;
+    TotalScore: integer;
     deck: TPack;
   public
     constructor create(numberOfPlayers: integer);
@@ -32,6 +33,7 @@ type
     property players: TArrayOfHand read Hands write Hands;
     property pack: TPack read deck write deck;
     property books: TArrayOfInterger read scores write scores;
+    property TotalBooks: integer read TotalScore write TotalScore;
 
   end;
 
@@ -77,6 +79,7 @@ begin
     begin
       hand := Hands[playerNum];
       inc(Scores[playerNum]);
+      inc(totalScore);
       for j := 0 to 3 do
         Table.AddTo(hand.placecard(hand.findCardByRank(I)));
     end;

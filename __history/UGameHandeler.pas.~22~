@@ -1,5 +1,5 @@
 unit UGameHandeler;
-
+
 interface
 
 uses
@@ -176,33 +176,36 @@ begin
 
     2:
       begin
-
-        cards := game.AskForCard(interpretRank(cmd[1]),
-          game.players[strToint(cmd[2])], game.players[currentUser]);
-        if length(cards) = 0 then
+        if strToint(cmd[2]) < length(game.players) then
         begin
-          writeln('Player does not have card');
-          writeln('GO FISH');
-          writeln('Got card: ', game.GoFish(game.players[currentUser])
-            .GetExplicitCard);
 
-          writeln('');
-          writeln('---');
-          writeln('The following books have been won:');
-          displayBooks;
-        end
-        else
-        begin
-          writeln('Got cards from user');
-          for i := 0 to length(cards) - 1 do
-            writeln(cards[i].GetExplicitCard);
+          cards := game.AskForCard(interpretRank(cmd[1]),
+            game.players[strToint(cmd[2])], game.players[currentUser]);
+          if length(cards) = 0 then
+          begin
+            writeln('Player does not have card');
+            writeln('GO FISH');
+            writeln('Got card: ', game.GoFish(game.players[currentUser])
+              .GetExplicitCard);
 
-          writeln('');
-          writeln('---');
-          writeln('The following books have been won:');
-          displayBooks;
+            writeln('');
+            writeln('---');
+            writeln('The following books have been won:');
+            displayBooks;
+          end
+          else
+          begin
+            writeln('Got cards from user');
+            for i := 0 to length(cards) - 1 do
+              writeln(cards[i].GetExplicitCard);
+
+            writeln('');
+            writeln('---');
+            writeln('The following books have been won:');
+            displayBooks;
+          end;
         end;
-
+        ExecuteUserInstruction(GetUserIn);
       end;
     3:
       game.destroy;
@@ -240,14 +243,14 @@ var
 
 begin
 
-  game.TotalBooks := 0;
+  totalBooksWon := 0;
 
-  while 12 > game.TotalBooks do
+  while 12 > totalBooksWon do
   begin
 
     for i := 0 to length(game.players) do
     begin
-      currentuser := i;
+      currentUser := i;
 
       writeln('----------------------------');
       writeln('Player ', inttoStr(i), ' turn!');
@@ -273,6 +276,12 @@ begin
       readln;
 
     end;
+
+    totalBooksWon := 0;
+    for i := 0 to length(game.books) do
+    begin
+      totalBooksWon := totalBooksWon + 1
+    end;
   end;
 
   writeln('====================================');
@@ -295,3 +304,4 @@ begin
 end;
 
 end.
+

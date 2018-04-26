@@ -4,7 +4,7 @@ interface
 
 uses
   System.SysUtils, classes, UCard, UFileHandeling, UFish,
-  System.Generics.Collections, UAbstractCardGroup;
+  System.Generics.Collections, UAbstractCardGroup, math;
 
 type
   TArrayOfString = Tarray<string>;
@@ -135,6 +135,8 @@ begin
   commands.add('save', 1);
   commands.add('a', 2);
   commands.add('ask', 2);
+  commands.add('A', 2);
+  commands.add('Ask', 2);
   commands.add('q', 3);
   commands.add('quit', 3);
 
@@ -143,6 +145,7 @@ begin
   repeat
     write('How many players: ');
     readln(playerNumber);
+    playerNumber := playerNumber - 1 // -= !!!!!
   until (playerNumber > 0) and (playerNumber < 5);
 
   game := TFish.create(playerNumber);
@@ -174,19 +177,29 @@ begin
     2:
       begin
         cards := game.AskForCard(interpretRank(cmd[1]),
-          game.players[currentUser], game.players[strToint(cmd[2])]);
+          game.players[strToint(cmd[2])], game.players[currentUser]);
         if length(cards) = 0 then
         begin
           writeln('Player does not have card');
           writeln('GO FISH');
           writeln('Got card: ', game.GoFish(game.players[currentUser])
             .GetExplicitCard);
+
+          writeln('');  
+          writeln('---');
+          writeln('The following books have been won:');
+          displayBooks;
         end
         else
         begin
           writeln('Got cards from user');
           for i := 0 to length(cards) - 1 do
             writeln(cards[i].GetExplicitCard);
+
+          writeln('');  
+          writeln('---');  
+          writeln('The following books have been won:');
+          displayBooks;
         end;
       end;
     3:
@@ -221,16 +234,22 @@ procedure TGameHandeler.play;
 var
   i, x: integer;
   cardsInHand: UAbstractCardGroup.TCards;
+  totalBooksWon: integer;
 
 begin
-  while True do
-  begin // This should be conitional on game end.
+
+  totalBooksWon := 0;
+  
+  while 12 > totalBooksWon do
+  begin
 
     for i := 0 to length(game.players) do
     begin
+      currentuser := i;
 
       writeln('----------------------------');
       writeln('Player ', inttoStr(i), ' turn!');
+
       writeln('Your hand contains: ');
 
       cardsInHand := game.players[i].getcontents;
@@ -250,8 +269,21 @@ begin
 
       writeln('Waiting for enter for next player');
       readln;
+
+    end;
+
+    totalBooksWon := 0;
+    for i := 0 to length(game.books) do begin
+      totalBooksWon := totalBooksWon + 1
     end;
   end;
+
+  writeln('====================================');
+  writeln('-------------GAME OVER--------------');
+  writeln('====================================');
+
+  writeln('SCORES:');
+  displayBooks;
 end;
 
 procedure TGameHandeler.Welcome;
